@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import NextLink from 'next/link'
 import SearchBar from './SearchBar'
-import { AppBar, Toolbar, Grid, IconButton, Badge, Typography, Link, Menu, MenuItem } from '@mui/material'
+import { useStore, useDispatch } from '../context/StoreProvider'
+import { actionsTypes } from '../context/StoreReducer'
+import { AppBar, Toolbar, Grid, IconButton, Badge, Typography, Link, Menu, MenuItem, Avatar } from '@mui/material'
 import { Favorite, ShoppingCart, AccountCircle } from '@mui/icons-material'
 
 export default function Nav() {
     const [anchorEl, setAnchorEl] = useState(null);
+    const { userInfo } = useStore();
+    const dispatch = useDispatch();
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -13,6 +17,11 @@ export default function Nav() {
 
     const handleClose = () => {
         setAnchorEl(null);
+    }
+
+    function logout() {
+        handleClose();
+        dispatch({type: actionsTypes.REMOVE_USER_INFO})
     }
 
     return (
@@ -40,7 +49,10 @@ export default function Nav() {
                             color='inherit'
                             onClick={handleMenu}
                         >
-                            <AccountCircle />
+                            {userInfo?.image 
+                                ? <Avatar src={userInfo.image} />
+                                : <AccountCircle />
+                            }
                         </IconButton>
                         <Menu
                             anchorEl={anchorEl}
@@ -56,15 +68,35 @@ export default function Nav() {
                                 horizontal: 'right',
                             }}
                         >
-                        <MenuItem onClick={handleClose}>Registrarse</MenuItem>
-                        <MenuItem onClick={handleClose}>Ingresar</MenuItem>
-                        <MenuItem onClick={handleClose}>Perfil</MenuItem>
-                        <MenuItem onClick={handleClose}>Administrar</MenuItem>
-                        <MenuItem onClick={handleClose}>Salir</MenuItem>
-                    </Menu>
+                            {!userInfo?.firstName
+                                ? <div>
+                                    <MenuItem onClick={handleClose}>
+                                        <NextLink href='/register' passHref>
+                                            <Link underline='none'>
+                                                Registrarse
+                                            </Link>
+                                        </NextLink>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose}>
+                                        <NextLink href='/login' passHref>
+                                            <Link underline='none'>
+                                                Ingresar
+                                            </Link>
+                                        </NextLink>
+                                    </MenuItem>
+                                </div>
+                                : <div>
+                                    <MenuItem onClick={handleClose}>Perfil</MenuItem>
+                                    {userInfo?.isAdmin && 
+                                        <MenuItem onClick={handleClose}>Administrar</MenuItem>
+                                    }
+                                    <MenuItem onClick={logout}>Salir</MenuItem>
+                                </div>
+                            }
+                        </Menu>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Toolbar>
+            </Toolbar>
         </AppBar >
     )
 }
