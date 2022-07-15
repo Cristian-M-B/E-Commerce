@@ -1,11 +1,12 @@
 export const initialState = {
     allProducts: [],
-    darkMode: true
+    userInfo: {}
 }
 
 export const actionsTypes = {
     LOAD_PRODUCTS: 'LOAD PRODUCTS',
-    CHANGE_MODE: 'CHANGE MODE'
+    LOAD_USER_INFO: 'LOAD USER INFO',
+    REMOVE_USER_INFO: 'REMOVE USER INFO'
 }
 
 export default function StoreReducer(state, action) {
@@ -17,10 +18,16 @@ export default function StoreReducer(state, action) {
                 allProducts: action.payload
             }
 
-        case actionsTypes.CHANGE_MODE:
+        case actionsTypes.LOAD_USER_INFO:
             return {
                 ...state,
-                darkMode: !state.darkMode
+                userInfo: action.payload
+            }
+
+        case actionsTypes.REMOVE_USER_INFO:
+            return {
+                ...state,
+                userInfo: {}
             }
 
         default:
