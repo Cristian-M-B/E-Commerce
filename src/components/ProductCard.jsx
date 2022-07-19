@@ -1,8 +1,16 @@
+import { useState } from 'react'
 import NextLink from 'next/link'
-import { Card, CardHeader, CardContent, CardActions, CardActionArea, IconButton, Link, Grid, Typography } from '@mui/material'
+import { WhatsappShareButton, WhatsappIcon } from 'react-share'
+import { Card, CardContent, CardActions, CardActionArea, IconButton, Link, Grid, Typography } from '@mui/material'
 import { Favorite, Share, ShoppingCart } from '@mui/icons-material'
 
 export default function ProductCard({ product }) {
+    const [share, setShare] = useState(false);
+
+    function handleClick() {
+        setShare(!share);
+    }
+
     return (
         <Card style={{ width: '200px', margin: '10px' }}>
             <NextLink href={`/product/${product._id}`} passHref>
@@ -33,7 +41,15 @@ export default function ProductCard({ product }) {
                     <IconButton>
                         <Favorite />
                     </IconButton>
-                    <IconButton>
+                    {share &&
+                        <WhatsappShareButton
+                            title='¡Mirá lo bueno que está esto!'
+                            url={`http://localhost:3000/product/${product._id}`}
+                        >
+                            <WhatsappIcon size={22} round={true} style={{ marginTop: '1vh' }} />
+                        </WhatsappShareButton>
+                    }
+                    <IconButton onClick={handleClick}>
                         <Share />
                     </IconButton>
                     <IconButton>
