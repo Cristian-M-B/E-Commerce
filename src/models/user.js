@@ -28,7 +28,11 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         default: false
-    }},
+    },
+    favorites: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Product'
+    }]},
     {
         timestamps: false,
         versionKey: false
