@@ -10,14 +10,3 @@ export const theme = createTheme({
         }
     },
 });
-
-export const darkTheme = createTheme({
-    palette: {
-        primary: {
-            main: '#ffa533'
-        },
-        secondary: {
-            main: '#24292f'
-        }
-    },
-});
