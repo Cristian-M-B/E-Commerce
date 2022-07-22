@@ -9,6 +9,7 @@ import { Favorite, ShoppingCart, AccountCircle } from '@mui/icons-material'
 export default function Nav() {
     const [anchorEl, setAnchorEl] = useState(null);
     const { userInfo } = useStore();
+    const { favorites, cart } = userInfo;
     const dispatch = useDispatch();
 
     const handleMenu = (event) => {
@@ -21,7 +22,7 @@ export default function Nav() {
 
     function logout() {
         handleClose();
-        dispatch({type: actionsTypes.REMOVE_USER_INFO})
+        dispatch({ type: actionsTypes.REMOVE_USER_INFO })
     }
 
     return (
@@ -36,22 +37,30 @@ export default function Nav() {
                     <SearchBar />
                     <Grid>
                         <IconButton color='inherit'>
-                            <Badge badgeContent={5} color='secondary'>
-                                <Favorite />
-                            </Badge>
+                            <NextLink href='/favorites' passHref>
+                                <Link>
+                                    <Badge badgeContent={favorites?.length} color='secondary'>
+                                        <Favorite sx={{ color: 'white' }} />
+                                    </Badge>
+                                </Link>
+                            </NextLink>
                         </IconButton>
                         <IconButton color='inherit'>
-                            <Badge badgeContent={2} color='secondary'>
-                                <ShoppingCart />
-                            </Badge>
+                            <NextLink href='/cart' passHref>
+                                <Link>
+                                    <Badge badgeContent={cart?.length} color='secondary'>
+                                        <ShoppingCart sx={{ color: 'white' }} />
+                                    </Badge>
+                                </Link>
+                            </NextLink>
                         </IconButton>
                         <IconButton
                             color='inherit'
                             onClick={handleMenu}
                         >
-                            {userInfo?.image 
+                            {userInfo?.image
                                 ? <Avatar src={userInfo.image} />
-                                : <AccountCircle />
+                                : <AccountCircle sx={{ marginTop: '1vh' }} />
                             }
                         </IconButton>
                         <Menu
@@ -86,9 +95,22 @@ export default function Nav() {
                                     </MenuItem>
                                 </div>
                                 : <div>
-                                    <MenuItem onClick={handleClose}>Perfil</MenuItem>
-                                    {userInfo?.isAdmin && 
-                                        <MenuItem onClick={handleClose}>Administrar</MenuItem>
+                                    <MenuItem onClick={handleClose}>
+                                        <NextLink href='/profile' passHref>
+                                            <Link underline='none'>
+                                                Perfil
+                                            </Link>
+                                        </NextLink>
+                                    </MenuItem>
+
+                                    {userInfo?.isAdmin &&
+                                        <MenuItem onClick={handleClose}>
+                                            <NextLink href='/admin' passHref>
+                                                <Link underline='none'>
+                                                    Administrar
+                                                </Link>
+                                            </NextLink>
+                                        </MenuItem>
                                     }
                                     <MenuItem onClick={logout}>Salir</MenuItem>
                                 </div>
