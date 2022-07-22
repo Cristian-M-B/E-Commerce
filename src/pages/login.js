@@ -37,7 +37,7 @@ export default function Login() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const user = await axios.post('http://localhost:3000/api/user?login=true', dataForm)
+            const user = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?login=true`, dataForm)
             if(!user.data) {
                 Swal.fire({
                     icon: 'error',
@@ -64,7 +64,7 @@ export default function Login() {
             <Head>
                 <title>E-Commerce | Ingresar</title>
             </Head>
-            <Grid container justifyContent='center' alignItems='center' style={{ height: '80vh' }}>
+            <Grid container justifyContent='center' alignItems='center' style={{ height: '75vh' }}>
                 <Paper elevation={12} sx={paperStyles}>
                     <Typography variant='h6' component='h6' align='center'>Iniciar Sesión</Typography>
                     <TextField
@@ -104,7 +104,7 @@ export default function Login() {
                         variant='contained'
                         color='secondary'
                         size='large'
-                        disabled={!dataForm.email || !dataForm.password}
+                        disabled={Boolean(!dataForm.email || !dataForm.password)}
                         onClick={handleSubmit}
                         style={{ marginTop: '4vh', marginBottom: '2vh' }}
                     >

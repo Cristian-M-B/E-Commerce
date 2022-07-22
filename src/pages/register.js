@@ -36,7 +36,7 @@ export default function Register() {
     }, [])
 
     async function getUsers() {
-        const response = await axios.get('http://localhost:3000/api/user')
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`)
         setUsers(response.data)
     }
 
@@ -108,7 +108,7 @@ export default function Register() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const newUser = await axios.post('http://localhost:3000/api/user', dataForm)
+            const newUser = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, dataForm)
             dispatch({ type: actionsTypes.LOAD_USER_INFO, payload: newUser.data })
             setDataForm({
                 firstName: '',
@@ -203,7 +203,7 @@ export default function Register() {
                         variant='contained'
                         color='secondary'
                         size='large'
-                        disabled={!dataForm.lastName || !dataForm.firstName || !dataForm.document || !dataForm.email || !dataForm.password || error.lastName || error.firstName || error.document || error.email || error.password}
+                        disabled={Boolean(!dataForm.lastName || !dataForm.firstName || !dataForm.document || !dataForm.email || !dataForm.password || error.lastName || error.firstName || error.document || error.email || error.password)}
                         onClick={handleSubmit}
                         style={{ marginTop: '4vh', marginBottom: '2vh' }}
                     >
