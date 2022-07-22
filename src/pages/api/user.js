@@ -6,13 +6,13 @@ export default async function handler(req, res) {
     const { email, password } = req.body
 
     if (req.method === 'GET') {
-        const user = await User.find({}).lean();
+        const user = await User.find({}).populate('favorites').lean();
         res.status(200).json(user);
     }
 
     if (req.method === 'POST') {
         if (req.query.login) {
-            const user = await User.findOne({ email, password }).lean();
+            const user = await User.findOne({ email, password }).populate('favorites').lean();
             res.status(200).json(user);
         } else {
             const newUser = new User({
