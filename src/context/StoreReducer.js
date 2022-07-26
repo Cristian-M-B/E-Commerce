@@ -6,7 +6,8 @@ export const initialState = {
 export const actionsTypes = {
     LOAD_PRODUCTS: 'LOAD PRODUCTS',
     LOAD_USER_INFO: 'LOAD USER INFO',
-    REMOVE_USER_INFO: 'REMOVE USER INFO'
+    REMOVE_USER_INFO: 'REMOVE USER INFO',
+    UPDATE_FAVORITE: 'UPDATE FAVORITE'
 }
 
 export default function StoreReducer(state, action) {
@@ -28,6 +29,15 @@ export default function StoreReducer(state, action) {
             return {
                 ...state,
                 userInfo: {}
+            }
+
+        case actionsTypes.UPDATE_FAVORITE:
+            return {
+                ...state,
+                userInfo: {
+                    ...state.userInfo,
+                    favorites: action.payload
+                }
             }
 
         default:
