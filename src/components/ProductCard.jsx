@@ -9,10 +9,11 @@ import { Favorite, Share, ShoppingCart } from '@mui/icons-material'
 
 export default function ProductCard({ product }) {
     const { userInfo } = useStore();
-    const { favorites } = userInfo;
+    const { favorites, cart } = userInfo;
     const dispatch = useDispatch();
     const [share, setShare] = useState(false);
     let isFavorite = false;
+    let isCart = false;
     
     function handleClick() {
         setShare(!share);
@@ -31,6 +32,26 @@ export default function ProductCard({ product }) {
                 try {
                     const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&favorite=${product._id}`)
                     dispatch({type: actionsTypes.UPDATE_FAVORITE, payload: res.data})
+                } catch(error) {
+                    alert(error)
+                }
+            }
+        }
+    }
+
+    async function updateCart() {
+        if (userInfo?.firstName) {
+            if (cart?.some(cartProduct => cartProduct._id._id === product._id)) {
+                try{
+                    const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&cart=${product._id}`)
+                    dispatch({type: actionsTypes.UPDATE_CART, payload: res.data})
+                } catch (error) {
+                    alert(error)
+                }
+            } else {
+                try {
+                    const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&cart=${product._id}`)
+                    dispatch({type: actionsTypes.UPDATE_CART, payload: res.data})
                 } catch(error) {
                     alert(error)
                 }
@@ -64,6 +85,7 @@ export default function ProductCard({ product }) {
                 </Link>
             </NextLink>
             {isFavorite = favorites?.some(favoriteProduct => favoriteProduct._id === product._id)}
+            {isCart = cart?.some(cartProduct => cartProduct._id._id === product._id)}
             <CardActions>
                 <Grid container justifyContent='space-around'>
                     <IconButton onClick={updateFavorite}>
@@ -80,8 +102,8 @@ export default function ProductCard({ product }) {
                     <IconButton onClick={handleClick}>
                         <Share />
                     </IconButton>
-                    <IconButton>
-                        <ShoppingCart />
+                    <IconButton onClick={updateCart}>
+                        <ShoppingCart sx={{ color: isCart && '#ffa533' }} />
                     </IconButton>
                 </Grid>
             </CardActions>
