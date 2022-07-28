@@ -19,7 +19,7 @@ export default function Home({ allProducts, allCategories }) {
   });
 
   const [page, setPage] = useState(1);
-  const productsPerPage = 2;
+  const productsPerPage = 12;
   const indexLastProducts = page * productsPerPage;
   const indexFirstProducts = indexLastProducts - productsPerPage;
   const currentProducts = products?.slice(indexFirstProducts, indexLastProducts);
