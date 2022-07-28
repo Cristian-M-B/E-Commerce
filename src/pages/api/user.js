@@ -6,21 +6,28 @@ export default async function handler(req, res) {
     const { email, password } = req.body
 
     if (req.method === 'GET') {
-        const users = await User.find({}).populate('favorites').lean();
+        const users = await User.find({}).populate('favorites').populate('cart._id').lean();
         res.status(200).json(users);
     }
 
     if (req.method === 'POST') {
         if (req.query.login) {
-            const user = await User.findOne({ email, password }).populate('favorites').lean();
+            const user = await User.findOne({ email, password }).populate('favorites').populate('cart._id').lean();
             res.status(200).json(user);
         } else if (req.query.favorite) {
             const update = await User.updateOne(
                 { _id: req.query.user },
                 { $addToSet: { favorites: [req.query.favorite] } }
             );
-            const user = await User.findById(req.query.user).populate("favorites").lean();
+            const user = await User.findById(req.query.user).populate('favorites').lean();
             res.status(200).json(user.favorites)
+        } else if (req.query.cart) {
+            const update = await User.updateOne(
+                { _id: req.query.user },
+                { $addToSet: { cart: [{ _id: req.query.cart, quantity: 1 }] } }
+            );
+            const user = await User.findById(req.query.user).populate('cart._id').lean();
+            res.status(200).json(user.cart)
         } else {
             const newUser = new User({
                 firstName: req.body.firstName,
@@ -40,8 +47,27 @@ export default async function handler(req, res) {
                 { _id: req.query.user },
                 { $pull: { favorites: req.query.favorite } }
             );
-            const user = await User.findById(req.query.user).populate("favorites").lean();
+            const user = await User.findById(req.query.user).populate('favorites').lean();
             res.status(200).json(user.favorites)
+        } else if (req.query.cart) {
+            const update = await User.updateOne(
+                { _id: req.query.user },
+                { $pull: { cart: { _id: req.query.cart } } }
+            );
+            const user = await User.findById(req.query.user).populate('cart._id').lean();
+            res.status(200).json(user.cart)
+        } else if (req.query.emptyCart) {
+            const update = await User.findByIdAndUpdate(req.query.user, { cart: [] })
+            const user = await User.findById(req.query.user).populate('cart._id').lean();
+            res.status(200).json(user.cart)
+        }
+    }
+
+    if (req.method === 'PUT') {
+        if (req.query.cart) {
+            const update = await User.findByIdAndUpdate(req.query.user, { cart: req.body })
+            const user = await User.findById(req.query.user).populate('cart._id').lean();
+            res.status(200).json(user.cart)
         }
     }
 }
