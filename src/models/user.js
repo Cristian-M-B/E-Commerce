@@ -32,6 +32,13 @@ const userSchema = new Schema({
     favorites: [{
         type: Schema.Types.ObjectId,
         ref: 'Product'
+    }],
+    cart: [{
+        _id: {
+            type: Schema.Types.ObjectId,
+            ref: 'Product'
+        },
+        quantity: Number
     }]},
     {
         timestamps: false,
