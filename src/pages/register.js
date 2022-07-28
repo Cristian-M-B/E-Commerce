@@ -22,7 +22,7 @@ export default function Register() {
     const router = useRouter();
     const [visibility, setVisibility] = useState(false);
     const [error, setError] = useState({});
-    const [users, setUsers] = useState();
+    const [users, setUsers] = useState([]);
     const [dataForm, setDataForm] = useState({
         firstName: '',
         lastName: '',
@@ -87,11 +87,11 @@ export default function Register() {
     }
 
     function validateDocument(document) {
-        return users.some(user => user.document === document)
+        return users?.some(user => user.document === document)
     }
 
     function validateEmail(email) {
-        return users.some(user => user.email === email)
+        return users?.some(user => user.email === email)
     }
 
     function handleChange(e) {
