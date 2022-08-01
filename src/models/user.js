@@ -29,6 +29,9 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    shippingData: {
+        type: Object
+    },
     favorites: [{
         type: Schema.Types.ObjectId,
         ref: 'Product'
