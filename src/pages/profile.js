@@ -47,7 +47,7 @@ export default function Profile() {
                         <NextLink href='/' passHref>
                             <Link underline='none'>
                                 <ListItem>
-                                    <ListItemButton color='secondary'>
+                                    <ListItemButton>
                                         <ListItemIcon>
                                             <History />
                                         </ListItemIcon>
@@ -56,7 +56,7 @@ export default function Profile() {
                                 </ListItem>
                             </Link>
                         </NextLink>
-                        <NextLink href='/' passHref>
+                        <NextLink href='/shippingData' passHref>
                             <Link underline='none'>
                                 <ListItem>
                                     <ListItemButton>
@@ -68,14 +68,14 @@ export default function Profile() {
                                 </ListItem>
                             </Link>
                         </NextLink>
-                        <NextLink href='/' passHref>
+                        <NextLink href='/userData' passHref>
                             <Link underline='none'>
                                 <ListItem>
                                     <ListItemButton>
                                         <ListItemIcon>
                                             <Person />
                                         </ListItemIcon>
-                                        <ListItemText primary='Información de Usuario' />
+                                        <ListItemText primary='Datos de Usuario' />
                                     </ListItemButton>
                                 </ListItem>
                             </Link>
