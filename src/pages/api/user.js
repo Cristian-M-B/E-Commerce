@@ -68,6 +68,14 @@ export default async function handler(req, res) {
             const update = await User.findByIdAndUpdate(req.query.user, { cart: req.body })
             const user = await User.findById(req.query.user).populate('cart._id').lean();
             res.status(200).json(user.cart)
+        } else if (req.query.shippingData) {
+            const update = await User.findByIdAndUpdate(req.query.user, { shippingData: req.body })
+            const user = await User.findById(req.query.user).lean();
+            res.status(200).json(user.shippingData)
+        } else {
+            const update = await User.findByIdAndUpdate(req.query.user, { firstName: req.body.firstName, lastName: req.body.lastName, document: req.body.document, email: req.body.email, password: req.body.password })
+            const user = await User.findById(req.query.user).populate('favorites').populate('cart._id').lean();
+            res.status(200).json(user)
         }
     }
 }
