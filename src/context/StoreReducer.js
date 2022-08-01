@@ -7,8 +7,10 @@ export const actionsTypes = {
     LOAD_PRODUCTS: 'LOAD PRODUCTS',
     LOAD_USER_INFO: 'LOAD USER INFO',
     REMOVE_USER_INFO: 'REMOVE USER INFO',
+    UPDATE_USER_INFO: 'UPDATE USER INFO',
     UPDATE_FAVORITE: 'UPDATE FAVORITE',
-    UPDATE_CART: 'UPDATE CART'
+    UPDATE_CART: 'UPDATE CART',
+    UPDATE_SHIPPING_DATA: 'UPDATE SHIPPING DATA'
 }
 
 export default function StoreReducer(state, action) {
@@ -32,6 +34,12 @@ export default function StoreReducer(state, action) {
                 userInfo: {}
             }
 
+        case actionsTypes.UPDATE_USER_INFO:
+            return {
+                ...state,
+                userInfo: action.payload
+            }
+
         case actionsTypes.UPDATE_FAVORITE:
             return {
                 ...state,
@@ -47,6 +55,15 @@ export default function StoreReducer(state, action) {
                 userInfo: {
                     ...state.userInfo,
                     cart: action.payload
+                }
+            }
+
+        case actionsTypes.UPDATE_SHIPPING_DATA:
+            return {
+                ...state,
+                userInfo: {
+                    ...state.userInfo,
+                    shippingData: action.payload
                 }
             }
 
