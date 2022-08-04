@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import NextLink from 'next/link'
 import SearchBar from './SearchBar'
 import { useStore, useDispatch } from '../context/StoreProvider'
@@ -11,6 +11,11 @@ export default function Nav() {
     const { userInfo } = useStore();
     const { favorites, cart } = userInfo;
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        !userInfo?.firstName && dispatch({type: actionsTypes.GET_USER_INFO_LOCAL_STORAGE})
+        !userInfo?.firstName && dispatch({type: actionsTypes.GET_ORDER_LOCAL_STORAGE})
+    }, [])
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
