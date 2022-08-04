@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import axios from 'axios'
 import { useStore, useDispatch } from '../context/StoreProvider'
@@ -48,6 +49,7 @@ const optionsStyles = {
 export default function Cart() {
     const { userInfo } = useStore();
     let { cart } = userInfo;
+    const router = useRouter();
     const dispatch = useDispatch();
 
     async function more(product) {
@@ -136,7 +138,7 @@ export default function Cart() {
                             <Typography variant='h6' component='h6'>Total</Typography>
                             <Typography variant='h6' component='h6'>{parseCurrency(cart?.reduce((acc, product) => acc += (product._id.price * product.quantity), 0))}</Typography>
                         </Paper>
-                        <Button variant='contained' color='primary' style={{ marginBottom: '1vh' }}>Comprar</Button>
+                        <Button variant='contained' color='primary' onClick={() => router.push('/order')} style={{ marginBottom: '1vh' }}>Comprar</Button>
                         <Button variant='contained' color='primary' onClick={empty} style={{ marginTop: '1vh' }}>Vaciar</Button>
                     </Stack>
                 </Grid>
