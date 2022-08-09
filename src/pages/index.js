@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import connectionDB from '../utils/db'
 import Product from '../models/product'
 import Category from '../models/category'
 import Layout from '../components/Layout'
 import ProductCard from '../components/ProductCard'
-import { useDispatch } from '../context/StoreProvider'
-import { actionsTypes } from '../context/StoreReducer'
 import { Grid, FormControl, InputLabel, Select, MenuItem, Pagination } from '@mui/material'
 
 
@@ -23,12 +21,6 @@ export default function Home({ allProducts, allCategories }) {
   const indexLastProducts = page * productsPerPage;
   const indexFirstProducts = indexLastProducts - productsPerPage;
   const currentProducts = products?.slice(indexFirstProducts, indexLastProducts);
-
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch({ type: actionsTypes.LOAD_PRODUCTS, payload: allProducts })
-  }, [])
 
   function handleChange(event, value) {
     setPage(value);
