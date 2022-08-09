@@ -75,6 +75,7 @@ export default function ProductCard({ product }) {
                         <Grid container justifyContent='center'>
                             <img
                                 src={product.images[0]}
+                                alt='Not Found'
                                 height='150'
                             />
                         </Grid>

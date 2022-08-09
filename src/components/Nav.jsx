@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import NextLink from 'next/link'
 import SearchBar from './SearchBar'
+import axios from 'axios'
 import { useStore, useDispatch } from '../context/StoreProvider'
 import { actionsTypes } from '../context/StoreReducer'
 import { AppBar, Toolbar, Grid, IconButton, Badge, Typography, Link, Menu, MenuItem, Avatar } from '@mui/material'
@@ -15,7 +16,13 @@ export default function Nav() {
     useEffect(() => {
         !userInfo?.firstName && dispatch({type: actionsTypes.GET_USER_INFO_LOCAL_STORAGE})
         !userInfo?.firstName && dispatch({type: actionsTypes.GET_ORDER_LOCAL_STORAGE})
+        getAllProducts()
     }, [])
+
+    async function getAllProducts(){
+        const products = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/products`)
+        dispatch({type: actionsTypes.LOAD_PRODUCTS, payload: products.data})
+    }
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);

@@ -75,7 +75,7 @@ export default function SearchBar() {
                                 <NextLink href={`/product/${result._id}`} passHref>
                                     <Link underline='none' onClick={() => setSearch('')}>
                                         <Grid container direction='row' alignItems='center' wrap='nowrap' style={{ paddingLeft: '10px', minHeight: '60px' }}>
-                                            <img src={result.images[0]} height='50' width='50' />
+                                            <img src={result.images[0]} alt='Not Found' height='50' width='50' />
                                             <Typography
                                                 noWrap={true}
                                                 variant='h6'
