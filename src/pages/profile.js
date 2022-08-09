@@ -25,7 +25,7 @@ export default function Profile() {
                 <Paper elevation={12} sx={paperStyles}>
                     <Typography variant='h6' component='h6' align='center'>¡Bienvenido a tu perfil!</Typography>
                     <Stack direction='row' style={{ marginTop: '4vh', marginBottom: '4vh' }}>
-                        <img src={userInfo?.image} style={{ borderRadius: '50%', height: '100px', width: '100px', marginRight: '20px' }} />
+                        <img src={userInfo?.image} alt='Not Found' style={{ borderRadius: '50%', height: '100px', width: '100px', marginRight: '20px' }} />
                         <Stack direction='column' sx={{ justifyContent: 'center' }}>
                             <Typography>{userInfo?.firstName} {userInfo?.lastName}</Typography>
                             <Typography>{userInfo?.email}</Typography>
@@ -44,7 +44,7 @@ export default function Profile() {
                                 </ListItem>
                             </Link>
                         </NextLink>
-                        <NextLink href='/' passHref>
+                        <NextLink href='/shoppingHistory' passHref>
                             <Link underline='none'>
                                 <ListItem>
                                     <ListItemButton>
