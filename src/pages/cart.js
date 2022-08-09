@@ -114,7 +114,7 @@ export default function Cart() {
                         {cart?.map(product => (
                             <Paper elevation={1} sx={paperStyles} key={product._id._id}>
                                 <Stack direction='row' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <img src={product._id?.images[0]} height='80' width='80' />
+                                    <img src={product._id?.images[0]} alt='Not Found' height='80' width='80' />
                                     <Typography variant='h6' component='h6' align='center' sx={nameStyles}>{product._id?.name}</Typography>
                                     <Stack direction='column' sx={quantityStyles}>
                                         <Typography>Precio Unitario</Typography>

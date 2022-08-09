@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Layout from '../../components/Layout'
 import axios from 'axios'
@@ -11,19 +11,19 @@ export default function Success({ query }) {
     const { userInfo, order } = useStore();
     const { userID, products, deliveryMode } = order;
     const dispatch = useDispatch();
+    const currentDate = new Date().toLocaleString();
+    const mp = {
+        preferenceID: query.preference_id,
+        paymentType: query.payment_type,
+        paymentID: query.payment_id,
+        paymentStatus: query.status
+    }
 
-    useMemo(() => {
+    useEffect(() => {
         userID && newOrder()
     }, [userID])
 
     async function newOrder() {
-        const currentDate = new Date().toLocaleString();
-        const mp = {
-            preferenceID: query.preference_id,
-            paymentType: query.payment_type,
-            paymentID: query.payment_id,
-            paymentStatus: query.status
-        }
         const order = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/order`, { userID, products, mp, currentDate, deliveryMode })
         const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo?._id}&emptyCart=${true}`)
         dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })

@@ -1,17 +1,61 @@
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Layout from '../../components/Layout'
-import { Grid, Typography } from '@mui/material'
+import axios from 'axios'
+import { useStore, useDispatch } from '../../context/StoreProvider'
+import { actionsTypes } from '../../context/StoreReducer'
+import { Grid, Typography, CircularProgress } from '@mui/material'
 
-export default function Pending() {
+export default function Pending({ query }) {
+    const [loading, setLoading] = useState(true);
+    const { userInfo, order } = useStore();
+    const { userID, products, deliveryMode } = order;
+    const dispatch = useDispatch();
+    const currentDate = new Date().toLocaleString();
+    const mp = {
+        preferenceID: query.preference_id,
+        paymentType: query.payment_type,
+        paymentID: query.payment_id,
+        paymentStatus: query.status
+    }
+
+    useEffect(() => {
+        userID && newOrder()
+    }, [userID])
+
+    async function newOrder() {
+        const order = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/order`, { userID, products, mp, currentDate, deliveryMode })
+        const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo?._id}&emptyCart=${true}`)
+        dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })
+        setLoading(false)
+    }
     return (
         <Layout>
             <Head>
                 <title>E-Commerce | Pago Pendiente</title>
             </Head>
-            <Grid container direction='column' justifyContent='center' alignItems='center' style={{minHeight: '75vh'}}>
-                <Typography variant='h5' component='h5'>¡Tú compra esta pendiente de pago!</Typography>
-                <Typography variant='h6' component='h6'>Una vez que termines con el proceso de pago, empezaremos a preparar tu pedido.</Typography>
+            <Grid container direction='column' justifyContent='center' alignItems='center' style={{ minHeight: '75vh' }}>
+                {loading
+                    ? <>
+                        <Typography variant='h5' component='h5'>¡Estamos procesando tu compra!</Typography>
+                        <Typography variant='h6' component='h6'>Por favor, aguarda un momento.</Typography>
+                        <CircularProgress color='primary' sx={{ marginTop: '5vh' }} />
+                    </>
+                    : <>
+                        <Typography variant='h5' component='h5' style={{ marginBottom: '5vh' }}>¡Tú compra esta pendiente de pago!</Typography>
+                        <Typography variant='h6' component='h6'>Una vez que termines con el proceso de pago, empezaremos a preparar tu pedido.</Typography>
+                        <Typography variant='h6' component='h6' style={{ marginTop: '4vh' }}>¡Muchas gracias por elegirnos!</Typography>
+                    </>
+                }
             </Grid>
         </Layout>
     )
+}
+
+export async function getServerSideProps({ query }) {
+    return {
+        props: {
+            query
+        }
+    }
 }
