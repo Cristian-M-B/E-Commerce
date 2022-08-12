@@ -24,8 +24,8 @@ export default function Success({ query }) {
     }, [userID])
 
     async function newOrder() {
-        const order = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/order`, { userID, products, mp, currentDate, deliveryMode })
-        const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo?._id}&emptyCart=${true}`)
+        const order = await axios.post(`/api/order`, { userID, products, mp, currentDate, deliveryMode })
+        const res = await axios.delete(`/api/user?user=${userInfo?._id}&emptyCart=${true}`)
         dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })
         setLoading(false)
     }

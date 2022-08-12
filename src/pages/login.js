@@ -37,7 +37,7 @@ export default function Login() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const user = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?login=true`, dataForm)
+            const user = await axios.post(`/api/user?login=true`, dataForm)
             if(!user.data) {
                 Swal.fire({
                     icon: 'error',

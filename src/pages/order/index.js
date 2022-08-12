@@ -69,7 +69,7 @@ export default function Order() {
         })
         const deliveryMode = checkedOptionOne ? 'Retira en el local' : 'Enviar al domicilio'
         dispatch({ type: actionsTypes.LOAD_ORDER, payload: { userID, products, deliveryMode } })
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/mp`, cart)
+        const res = await axios.post(`/api/mp`, cart)
         router.push(res.data)
     }
 

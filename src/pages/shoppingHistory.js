@@ -24,14 +24,14 @@ export default function ShoppingHistory({ orders }) {
             <Head>
                 <title>E-Commerce | Historial de Compras</title>
             </Head>
-            <Grid container direction='column' alignItems='center' style={{minHeight: '75vh'}}>
+            <Grid container direction='column' alignItems='center' style={{ minHeight: '75vh' }}>
                 <Typography variant='h5' component='h5' style={{ marginBottom: '4vh' }}>Historal de Compras</Typography>
                 {myOrders?.map(order => (
                     <Paper key={order._id} elevation={1} sx={paperStyles}>
                         <Stack direction='row' sx={{ justifyContent: 'space-around' }}>
                             <Typography>{order.date}</Typography>
                             <Typography sx={{ color: order.paymentStatus === 'approved' ? '#2e7d32' : '#ed6c02' }}>
-                                {order.paymentStatus === 'approved' ? 'PAGADO' : 'PAGO PENDIENTE'}
+                                {order.paymentStatus === 'approved' ? 'Pagado' : 'Pago Pendiente'}
                             </Typography>
                         </Stack>
                         {order?.products?.map(product => (

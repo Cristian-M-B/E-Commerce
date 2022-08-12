@@ -60,7 +60,7 @@ export default function Cart() {
                 }
                 return item;
             })
-            const res = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&cart=${true}`, updateCart)
+            const res = await axios.put(`/api/user?user=${userInfo._id}&cart=${true}`, updateCart)
             dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })
         }
     }
@@ -73,18 +73,18 @@ export default function Cart() {
                 }
                 return item;
             })
-            const res = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&cart=${true}`, updateCart)
+            const res = await axios.put(`/api/user?user=${userInfo._id}&cart=${true}`, updateCart)
             dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })
         }
     }
 
     async function remove(product) {
-        const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&cart=${product._id._id}`)
+        const res = await axios.delete(`/api/user?user=${userInfo._id}&cart=${product._id._id}`)
         dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })
     }
 
     async function empty() {
-        const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&emptyCart=${true}`)
+        const res = await axios.delete(`/api/user?user=${userInfo._id}&emptyCart=${true}`)
         dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })
     }
 
