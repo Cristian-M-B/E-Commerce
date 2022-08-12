@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 export const initialState = {
     allProducts: [],
     userInfo: {},
@@ -34,6 +36,7 @@ export default function StoreReducer(state, action) {
             }
 
         case actionsTypes.REMOVE_USER_INFO:
+            Cookies.remove('E-Commerce_token')
             localStorage.removeItem('userInfo')
             return {
                 ...state,
@@ -43,7 +46,7 @@ export default function StoreReducer(state, action) {
         case actionsTypes.GET_USER_INFO_LOCAL_STORAGE:
             return {
                 ...state,
-                userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {}
+                userInfo: localStorage.getItem('userInfo') && Cookies.get('E-Commerce_token') ? JSON.parse(localStorage.getItem('userInfo')) : {}
             }
 
         case actionsTypes.UPDATE_USER_INFO:
