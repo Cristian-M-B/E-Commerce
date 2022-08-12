@@ -35,7 +35,7 @@ export default function UserDataForm() {
     }, [])
 
     async function getUsers() {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`)
+        const response = await axios.get(`/api/user`)
         setUsers(response.data)
     }
 
@@ -136,7 +136,7 @@ export default function UserDataForm() {
         e.preventDefault();
         if(userInfo?.firstName){
             try{
-                const res = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}`, dataForm)
+                const res = await axios.put(`/api/user?user=${userInfo._id}`, dataForm)
                 dispatch({ type: actionsTypes.UPDATE_USER_INFO, payload: res.data })
                 router.back();
                 setDataForm({
@@ -151,7 +151,7 @@ export default function UserDataForm() {
             }
         } else {
             try {
-                const newUser = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, dataForm)
+                const newUser = await axios.post(`/api/user`, dataForm)
                 dispatch({ type: actionsTypes.LOAD_USER_INFO, payload: newUser.data })
                 router.push('/');
                 setDataForm({

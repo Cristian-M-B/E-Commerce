@@ -20,7 +20,7 @@ export default function Nav() {
     }, [])
 
     async function getAllProducts(){
-        const products = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/products`)
+        const products = await axios.get(`/api/products`)
         dispatch({type: actionsTypes.LOAD_PRODUCTS, payload: products.data})
     }
 

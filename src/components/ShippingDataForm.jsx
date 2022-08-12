@@ -36,7 +36,7 @@ export default function ShippingDataForm() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const res = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&shippingData=${true}`, input)
+        const res = await axios.put(`/api/user?user=${userInfo._id}&shippingData=${true}`, input)
         dispatch({ type: actionsTypes.UPDATE_SHIPPING_DATA, payload: res.data })
     }
 

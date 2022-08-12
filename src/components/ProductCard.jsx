@@ -23,14 +23,14 @@ export default function ProductCard({ product }) {
         if (userInfo?.firstName) {
             if (favorites?.some(favoriteProduct => favoriteProduct._id === product._id)) {
                 try{
-                    const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&favorite=${product._id}`)
+                    const res = await axios.delete(`/api/user?user=${userInfo._id}&favorite=${product._id}`)
                     dispatch({type: actionsTypes.UPDATE_FAVORITE, payload: res.data})
                 } catch (error) {
                     alert(error)
                 }
             } else {
                 try {
-                    const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&favorite=${product._id}`)
+                    const res = await axios.post(`/api/user?user=${userInfo._id}&favorite=${product._id}`)
                     dispatch({type: actionsTypes.UPDATE_FAVORITE, payload: res.data})
                 } catch(error) {
                     alert(error)
@@ -43,14 +43,14 @@ export default function ProductCard({ product }) {
         if (userInfo?.firstName) {
             if (cart?.some(cartProduct => cartProduct._id._id === product._id)) {
                 try{
-                    const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&cart=${product._id}`)
+                    const res = await axios.delete(`/api/user?user=${userInfo._id}&cart=${product._id}`)
                     dispatch({type: actionsTypes.UPDATE_CART, payload: res.data})
                 } catch (error) {
                     alert(error)
                 }
             } else {
                 try {
-                    const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user?user=${userInfo._id}&cart=${product._id}`)
+                    const res = await axios.post(`/api/user?user=${userInfo._id}&cart=${product._id}`)
                     dispatch({type: actionsTypes.UPDATE_CART, payload: res.data})
                 } catch(error) {
                     alert(error)
@@ -95,7 +95,7 @@ export default function ProductCard({ product }) {
                     {share &&
                         <WhatsappShareButton
                             title='¡Mirá lo bueno que está esto!'
-                            url={`${process.env.NEXT_PUBLIC_CLIENT_URL}/product/${product._id}`}
+                            url={`/product/${product._id}`}
                         >
                             <WhatsappIcon size={22} round={true} style={{ marginTop: '1vh' }} />
                         </WhatsappShareButton>
