@@ -1,5 +1,7 @@
 import connectionDB from '../../utils/db'
 import User from '../../models/user'
+import jwt from 'jsonwebtoken'
+import { serialize } from 'cookie'
 
 export default async function handler(req, res) {
     await connectionDB();
@@ -13,6 +15,20 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         if (req.query.login) {
             const user = await User.findOne({ email, password }).populate('favorites').populate('cart._id').lean();
+            if (user?.firstName) {
+                const token = jwt.sign({
+                    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+                    isAdmin: `${user.isAdmin}`,
+                }, process.env.SECRET_JWT)
+                const serialized = serialize('E-Commerce_token', token, {
+                    HttpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'strict',
+                    maxAge: 30 * 24 * 60 * 60,
+                    path: '/'
+                })
+                res.setHeader('Set-Cookie', serialized);
+            }
             res.status(200).json(user);
         } else if (req.query.favorite) {
             const update = await User.updateOne(
@@ -37,6 +53,20 @@ export default async function handler(req, res) {
                 password: req.body.password
             })
             const userSaved = await newUser.save();
+            if (userSaved?.firstName) {
+                const token = jwt.sign({
+                    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+                    isAdmin: `${userSaved.isAdmin}`,
+                }, process.env.SECRET_JWT)
+                const serialized = serialize('E-Commerce_token', token, {
+                    HttpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'strict',
+                    maxAge: 30 * 24 * 60 * 60,
+                    path: '/'
+                })
+                res.setHeader('Set-Cookie', serialized);
+            }
             res.status(200).json(userSaved);
         }
     }
