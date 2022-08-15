@@ -12,6 +12,7 @@ export const actionsTypes = {
     REMOVE_USER_INFO: 'REMOVE USER INFO',
     GET_USER_INFO_LOCAL_STORAGE: 'GET USER INFO LOCAL STORAGE',
     UPDATE_USER_INFO: 'UPDATE USER INFO',
+    UPDATE_AVATAR: 'UPDATE AVATAR',
     UPDATE_FAVORITE: 'UPDATE FAVORITE',
     UPDATE_CART: 'UPDATE CART',
     UPDATE_SHIPPING_DATA: 'UPDATE SHIPPING DATA',
@@ -54,6 +55,16 @@ export default function StoreReducer(state, action) {
             return {
                 ...state,
                 userInfo: action.payload
+            }
+
+        case actionsTypes.UPDATE_AVATAR:
+            localStorage.setItem('userInfo', JSON.stringify({ ...state.userInfo, image: action.payload }))
+            return {
+                ...state,
+                userInfo: {
+                    ...state.userInfo,
+                    image: action.payload
+                }
             }
 
         case actionsTypes.UPDATE_FAVORITE:
