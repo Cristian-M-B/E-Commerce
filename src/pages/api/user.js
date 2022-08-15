@@ -102,6 +102,10 @@ export default async function handler(req, res) {
             const update = await User.findByIdAndUpdate(req.query.user, { shippingData: req.body })
             const user = await User.findById(req.query.user).lean();
             res.status(200).json(user.shippingData)
+        } else if (req.query.image) {
+            const update = await User.findByIdAndUpdate(req.query.user, { image: req.body.image })
+            const user = await User.findById(req.query.user).lean();
+            res.status(200).json(user.image)
         } else {
             const update = await User.findByIdAndUpdate(req.query.user, { firstName: req.body.firstName, lastName: req.body.lastName, document: req.body.document, email: req.body.email, password: req.body.password })
             const user = await User.findById(req.query.user).populate('favorites').populate('cart._id').lean();
