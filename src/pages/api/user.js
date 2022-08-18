@@ -1,11 +1,11 @@
 import connectionDB from '../../utils/db'
 import User from '../../models/user'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { serialize } from 'cookie'
 
 export default async function handler(req, res) {
     await connectionDB();
-    const { email, password } = req.body
 
     if (req.method === 'GET') {
         const users = await User.find({}).populate('favorites').populate('cart._id').lean();
@@ -14,8 +14,11 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
         if (req.query.login) {
-            const user = await User.findOne({ email, password }).populate('favorites').populate('cart._id').lean();
-            if (user?.firstName) {
+            const { email, password } = req.body;
+            const user = await User.findOne({ email }).populate('favorites').populate('cart._id').lean();
+            const passwordDB = user?.firstName ? user.password : null;
+            const compare = passwordDB ? bcrypt.compareSync(password, passwordDB) : false;
+            if (compare) {
                 const token = jwt.sign({
                     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
                     isAdmin: `${user.isAdmin}`,
@@ -28,8 +31,10 @@ export default async function handler(req, res) {
                     path: '/'
                 })
                 res.setHeader('Set-Cookie', serialized);
+                res.status(200).json(user);
+            } else {
+                res.status(200).json(null);
             }
-            res.status(200).json(user);
         } else if (req.query.favorite) {
             const update = await User.updateOne(
                 { _id: req.query.user },
@@ -45,12 +50,13 @@ export default async function handler(req, res) {
             const user = await User.findById(req.query.user).populate('cart._id').lean();
             res.status(200).json(user.cart)
         } else {
+            const hash = bcrypt.hashSync(req.body.password);
             const newUser = new User({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 document: req.body.document,
                 email: req.body.email,
-                password: req.body.password
+                password: hash
             })
             const userSaved = await newUser.save();
             if (userSaved?.firstName) {
@@ -107,7 +113,12 @@ export default async function handler(req, res) {
             const user = await User.findById(req.query.user).lean();
             res.status(200).json(user.image)
         } else {
-            const update = await User.findByIdAndUpdate(req.query.user, { firstName: req.body.firstName, lastName: req.body.lastName, document: req.body.document, email: req.body.email, password: req.body.password })
+            if(req.body.password) {
+                const hash = bcrypt.hashSync(req.body.password);
+                const update = await User.findByIdAndUpdate(req.query.user, { firstName: req.body.firstName, lastName: req.body.lastName, document: req.body.document, email: req.body.email, password: hash });
+            } else {
+                const update = await User.findByIdAndUpdate(req.query.user, { firstName: req.body.firstName, lastName: req.body.lastName, document: req.body.document, email: req.body.email });
+            }
             const user = await User.findById(req.query.user).populate('favorites').populate('cart._id').lean();
             res.status(200).json(user)
         }
