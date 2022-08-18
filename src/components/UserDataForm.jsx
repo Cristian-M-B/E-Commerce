@@ -27,7 +27,7 @@ export default function UserDataForm() {
         lastName: userInfo?.lastName,
         document: userInfo?.document,
         email: userInfo?.email,
-        password: userInfo?.password
+        password: ''
     })
 
     useEffect(() => {
@@ -76,10 +76,12 @@ export default function UserDataForm() {
             error.email = 'Ya hay un usuario registrado con este email'
         }
 
-        if (!data.password) {
-            error.password = 'La contraseña es requerida'
-        } else if (!/^(?=.*\d)(?=.*[\u0021-\u002b-\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/i.test(data.password)) {
-            error.password = 'La contraseña debe tener entre 8 y 16 caracteres y contar con letras, números y caracteres especiales'
+        if (!userInfo?.password) {
+            if (!data.password) {
+                error.password = 'La contraseña es requerida'
+            } else if (!/^(?=.*\d)(?=.*[\u0021-\u002b-\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/i.test(data.password)) {
+                error.password = 'La contraseña debe tener entre 8 y 16 caracteres y contar con letras, números y caracteres especiales'
+            }
         }
 
         return error
@@ -134,8 +136,8 @@ export default function UserDataForm() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        if(userInfo?.firstName){
-            try{
+        if (userInfo?.firstName) {
+            try {
                 const res = await axios.put(`/api/user?user=${userInfo._id}`, dataForm)
                 dispatch({ type: actionsTypes.UPDATE_USER_INFO, payload: res.data })
                 router.back();
@@ -245,7 +247,7 @@ export default function UserDataForm() {
                 variant='contained'
                 color='secondary'
                 size='large'
-                disabled={Boolean(!dataForm.lastName || !dataForm.firstName || !dataForm.document || !dataForm.email || !dataForm.password || error.lastName || error.firstName || error.document || error.email || error.password)}
+                disabled={Boolean(!dataForm.lastName || !dataForm.firstName || !dataForm.document || !dataForm.email || (!userInfo?.password && !dataForm.password) || error.lastName || error.firstName || error.document || error.email || error.password)}
                 onClick={handleSubmit}
                 style={{ marginTop: '4vh', marginBottom: '2vh' }}
             >
