@@ -7,7 +7,8 @@ import axios from 'axios'
 import { useDispatch } from '../context/StoreProvider'
 import { actionsTypes } from '../context/StoreReducer'
 import { Grid, Paper, Typography, TextField, InputAdornment, IconButton, Button, Link } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Swal from 'sweetalert2'
 
 const paperStyles = {

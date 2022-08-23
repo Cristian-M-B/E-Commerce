@@ -6,7 +6,9 @@ import { useStore, useDispatch } from '../context/StoreProvider'
 import { actionsTypes } from '../context/StoreReducer'
 import { parseCurrency } from '../utils/functions'
 import { Grid, Stack, Paper, Typography, Button, IconButton } from '@mui/material'
-import { ArrowLeft, ArrowRight, Delete } from '@mui/icons-material'
+import ArrowLeft from '@mui/icons-material/ArrowLeft'
+import ArrowRight from '@mui/icons-material/ArrowRight'
+import Delete from '@mui/icons-material/Delete'
 
 const itemsStyles = {
     width: '70%',

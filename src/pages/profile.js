@@ -6,7 +6,12 @@ import axios from 'axios'
 import { useStore, useDispatch } from '../context/StoreProvider'
 import { actionsTypes } from '../context/StoreReducer'
 import { Grid, Paper, Stack, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Link, IconButton, Avatar, Modal, TextField, Button } from '@mui/material'
-import { Favorite, History, LocalShipping, Person, AccountCircle, Close } from '@mui/icons-material'
+import Favorite from '@mui/icons-material/Favorite'
+import History from '@mui/icons-material/History'
+import LocalShipping from '@mui/icons-material/LocalShipping'
+import Person from '@mui/icons-material/Person'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import Close from '@mui/icons-material/Close'
 
 const paperStyles = {
     padding: '15px',
