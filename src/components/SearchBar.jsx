@@ -1,7 +1,7 @@
 import NextLink from 'next/link'
 import { useEffect, useState, useRef } from 'react'
 import { TextField, InputAdornment, IconButton, Grid, Card, CardHeader, Divider, Link, Typography } from '@mui/material'
-import { Search } from '@mui/icons-material'
+import Search from '@mui/icons-material/Search'
 import { useStore } from '../context/StoreProvider'
 import { makeStyles } from '@mui/styles'
 

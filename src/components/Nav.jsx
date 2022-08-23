@@ -5,7 +5,9 @@ import axios from 'axios'
 import { useStore, useDispatch } from '../context/StoreProvider'
 import { actionsTypes } from '../context/StoreReducer'
 import { AppBar, Toolbar, Grid, IconButton, Badge, Typography, Link, Menu, MenuItem, Avatar } from '@mui/material'
-import { Favorite, ShoppingCart, AccountCircle } from '@mui/icons-material'
+import Favorite from '@mui/icons-material/Favorite'
+import ShoppingCart from '@mui/icons-material/ShoppingCart'
+import AccountCircle from '@mui/icons-material/AccountCircle'
 
 export default function Nav() {
     const [anchorEl, setAnchorEl] = useState(null);

@@ -5,7 +5,9 @@ import { useStore, useDispatch } from '../context/StoreProvider'
 import { actionsTypes } from '../context/StoreReducer'
 import { WhatsappShareButton, WhatsappIcon } from 'react-share'
 import { Card, CardContent, CardActions, CardActionArea, IconButton, Link, Grid, Typography } from '@mui/material'
-import { Favorite, Share, ShoppingCart } from '@mui/icons-material'
+import Favorite from '@mui/icons-material/Favorite'
+import Share from '@mui/icons-material/Share'
+import ShoppingCart from '@mui/icons-material/ShoppingCart'
 
 export default function ProductCard({ product }) {
     const { userInfo } = useStore();

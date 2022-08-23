@@ -5,7 +5,8 @@ import axios from 'axios'
 import { useStore, useDispatch } from '../context/StoreProvider'
 import { actionsTypes } from '../context/StoreReducer'
 import { Paper, Typography, TextField, InputAdornment, IconButton, Button, Link } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
 const paperStyles = {
     padding: '15px',
