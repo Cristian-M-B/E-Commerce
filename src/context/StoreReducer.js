@@ -3,7 +3,8 @@ import Cookies from 'js-cookie'
 export const initialState = {
     allProducts: [],
     userInfo: {},
-    order: {}
+    order: {},
+    reviews: []
 }
 
 export const actionsTypes = {
@@ -17,7 +18,8 @@ export const actionsTypes = {
     UPDATE_CART: 'UPDATE CART',
     UPDATE_SHIPPING_DATA: 'UPDATE SHIPPING DATA',
     LOAD_ORDER: 'LOAD ORDER',
-    GET_ORDER_LOCAL_STORAGE: 'GET ORDER LOCAL STORAGE'
+    GET_ORDER_LOCAL_STORAGE: 'GET ORDER LOCAL STORAGE',
+    GET_REVIEWS: 'GET REVIEWS'
 }
 
 export default function StoreReducer(state, action) {
@@ -110,6 +112,11 @@ export default function StoreReducer(state, action) {
                 order: localStorage.getItem('order') ? JSON.parse(localStorage.getItem('order')) : {}
             }
 
+        case actionsTypes.GET_REVIEWS:
+            return {
+                ...state,
+                reviews: action.payload
+            }
 
         default:
             return state
