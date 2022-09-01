@@ -96,7 +96,7 @@ export default function Reviews({ orders }) {
             </Grid>
 
             {orders?.forEach(order => {
-                if (order.user._id === userInfo?._id) {
+                if (order.user?._id === userInfo?._id) {
                     order.products.forEach(product => {
                         if (product.id === productID) {
                             isOrdered = true;

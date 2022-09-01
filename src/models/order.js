@@ -1,9 +1,10 @@
 const { Schema, model, models } = require('mongoose')
+import User from './user'
 
 const orderSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: User
     },
     products: {
         type: Array,

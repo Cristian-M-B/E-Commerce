@@ -17,7 +17,7 @@ const paperStyles = {
 
 export default function ShoppingHistory({ orders }) {
     const { userInfo } = useStore();
-    const myOrders = orders?.filter(order => order.user._id === userInfo?._id).reverse();
+    const myOrders = orders?.filter(order => order.user?._id === userInfo?._id).reverse();
 
     return (
         <Layout>
