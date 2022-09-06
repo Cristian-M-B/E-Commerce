@@ -1,10 +1,11 @@
 import connectionDB from '../../utils/db'
 import Order from '../../models/order'
+import { transporter, order } from '../../utils/email'
 
 export default async function handler(req, res) {
     await connectionDB();
 
-    if(req.method === 'POST') {
+    if (req.method === 'POST') {
         const newOrder = new Order({
             user: req.body.userID,
             products: req.body.products,
@@ -16,6 +17,8 @@ export default async function handler(req, res) {
             deliveryMode: req.body.deliveryMode
         })
         const orderSaved = await newOrder.save();
+        const myOrder = await Order.findById( orderSaved._id ).populate('user').lean();
+        transporter.sendMail(order(myOrder))
         res.status(200).json(orderSaved);
     }
 }
