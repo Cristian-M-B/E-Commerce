@@ -3,6 +3,7 @@ import User from '../../models/user'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { serialize } from 'cookie'
+import { transporter, registration } from '../../utils/email'
 
 export default async function handler(req, res) {
     await connectionDB();
@@ -59,6 +60,7 @@ export default async function handler(req, res) {
                 password: hash
             })
             const userSaved = await newUser.save();
+            transporter.sendMail(registration(userSaved))
             if (userSaved?.firstName) {
                 const token = jwt.sign({
                     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
