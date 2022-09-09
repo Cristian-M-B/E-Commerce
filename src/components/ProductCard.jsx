@@ -3,6 +3,7 @@ import NextLink from 'next/link'
 import axios from 'axios'
 import { useStore, useDispatch } from '../context/StoreProvider'
 import { actionsTypes } from '../context/StoreReducer'
+import { parseCurrency } from '../utils/functions'
 import { WhatsappShareButton, WhatsappIcon } from 'react-share'
 import { Card, CardContent, CardActions, CardActionArea, IconButton, Link, Grid, Typography } from '@mui/material'
 import Favorite from '@mui/icons-material/Favorite'
@@ -16,7 +17,7 @@ export default function ProductCard({ product }) {
     const [share, setShare] = useState(false);
     let isFavorite = false;
     let isCart = false;
-    
+
     function handleClick() {
         setShare(!share);
     }
@@ -24,17 +25,17 @@ export default function ProductCard({ product }) {
     async function updateFavorite() {
         if (userInfo?.firstName) {
             if (favorites?.some(favoriteProduct => favoriteProduct._id === product._id)) {
-                try{
+                try {
                     const res = await axios.delete(`/api/user?user=${userInfo._id}&favorite=${product._id}`)
-                    dispatch({type: actionsTypes.UPDATE_FAVORITE, payload: res.data})
+                    dispatch({ type: actionsTypes.UPDATE_FAVORITE, payload: res.data })
                 } catch (error) {
                     alert(error)
                 }
             } else {
                 try {
                     const res = await axios.post(`/api/user?user=${userInfo._id}&favorite=${product._id}`)
-                    dispatch({type: actionsTypes.UPDATE_FAVORITE, payload: res.data})
-                } catch(error) {
+                    dispatch({ type: actionsTypes.UPDATE_FAVORITE, payload: res.data })
+                } catch (error) {
                     alert(error)
                 }
             }
@@ -44,17 +45,17 @@ export default function ProductCard({ product }) {
     async function updateCart() {
         if (userInfo?.firstName) {
             if (cart?.some(cartProduct => cartProduct._id._id === product._id)) {
-                try{
+                try {
                     const res = await axios.delete(`/api/user?user=${userInfo._id}&cart=${product._id}`)
-                    dispatch({type: actionsTypes.UPDATE_CART, payload: res.data})
+                    dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })
                 } catch (error) {
                     alert(error)
                 }
             } else {
                 try {
                     const res = await axios.post(`/api/user?user=${userInfo._id}&cart=${product._id}`)
-                    dispatch({type: actionsTypes.UPDATE_CART, payload: res.data})
-                } catch(error) {
+                    dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })
+                } catch (error) {
                     alert(error)
                 }
             }
@@ -62,15 +63,16 @@ export default function ProductCard({ product }) {
     }
 
     return (
-        <Card style={{ width: '200px', margin: '10px' }}>
+        <Card style={{ width: '250px', margin: '10px' }}>
             <NextLink href={`/product/${product._id}`} passHref>
                 <Link underline='none'>
                     <CardActionArea>
                         <Typography
                             align='center'
                             noWrap={true}
-                            variant='h5'
-                            component='h5'
+                            variant='h6'
+                            component='h6'
+                            sx={{ margin: '10px auto' }}
                         >
                             {product.name}
                         </Typography>
@@ -82,7 +84,12 @@ export default function ProductCard({ product }) {
                             />
                         </Grid>
                         <CardContent>
-                            {product.description}
+                            <Grid container justifyContent='space-between'>
+                                <Typography>{parseCurrency(product.price)}</Typography>
+                                {product.stock < 1 &&
+                                    <Typography color='error'>Sin Stock</Typography>
+                                }
+                            </Grid>
                         </CardContent>
                     </CardActionArea>
                 </Link>
@@ -97,7 +104,7 @@ export default function ProductCard({ product }) {
                     {share &&
                         <WhatsappShareButton
                             title='¡Mirá lo bueno que está esto!'
-                            url={`/product/${product._id}`}
+                            url={`tecnocommerce.vercel.app/product/${product._id}`}
                         >
                             <WhatsappIcon size={22} round={true} style={{ marginTop: '1vh' }} />
                         </WhatsappShareButton>
@@ -105,7 +112,7 @@ export default function ProductCard({ product }) {
                     <IconButton onClick={handleClick}>
                         <Share />
                     </IconButton>
-                    <IconButton onClick={updateCart}>
+                    <IconButton disabled={Boolean(product.stock < 1)} onClick={updateCart}>
                         <ShoppingCart sx={{ color: isCart && '#ffa533' }} />
                     </IconButton>
                 </Grid>
