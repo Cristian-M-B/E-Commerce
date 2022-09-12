@@ -1,22 +1,11 @@
 import NextLink from 'next/link'
 import { useEffect, useState, useRef } from 'react'
-import { TextField, InputAdornment, IconButton, Grid, Card, CardHeader, Divider, Link, Typography } from '@mui/material'
+import { TextField, InputAdornment, Grid, Card, Divider, Link, Typography } from '@mui/material'
 import Search from '@mui/icons-material/Search'
 import { useStore } from '../context/StoreProvider'
 import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
-    grid: {
-        boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
-        position: 'absolute',
-        width: '29%',
-        maxHeight: '240px',
-        overflowX: 'hidden',
-        overflowY: 'auto',
-        zIndex: '20',
-        backgroundColor: 'white',
-        borderRadius: '1vh',
-    },
     card: {
         '&:hover': {
             backgroundColor: theme.palette.secondary.main
@@ -26,6 +15,32 @@ const useStyles = makeStyles((theme) => ({
         color: 'black',
     }
 }));
+
+const searchStyles = { 
+    backgroundColor: 'white', 
+    borderRadius: '1vh', 
+    width: '30vw',
+    '@media(max-width: 400px)': {
+        width: '25vw'
+    }
+}
+
+const optionsStyles = {
+    boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
+    position: 'absolute',
+    width: '30vw',
+    maxHeight: '203px',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    zIndex: '20',
+    backgroundColor: 'white',
+    borderRadius: '1vh',
+    '@media(max-width: 600px)': {
+        width: '250px',
+        left: '50%',
+        transform: 'translate(-50%)'
+    }
+}
 
 export default function SearchBar() {
     const { allProducts } = useStore();
@@ -48,39 +63,37 @@ export default function SearchBar() {
     }
 
     return (
-        <form style={{ width: '30%' }} onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <TextField
-                fullWidth
+                size='small'
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 inputRef={input}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setTimeout(() => setFocused(false), 200)}
                 variant='outlined'
-                style={{ backgroundColor: 'white', borderRadius: '1vh' }}
+                sx={searchStyles}
                 InputProps={{
                     startAdornment:
                         <InputAdornment position='start'>
-                            <IconButton color='primary'>
-                                <Search />
-                            </IconButton>
+                            <Search />
                         </InputAdornment>
                 }}
             />
             {search.length > 0 && focused &&
-                <Grid className={classes.grid}>
+                <Grid sx={optionsStyles}>
                     {results.length > 0
                         ? results.map(result => (
                             <Card key={result.name} className={classes.card}>
                                 <NextLink href={`/product/${result._id}`} passHref>
                                     <Link underline='none' onClick={() => setSearch('')}>
-                                        <Grid container direction='row' alignItems='center' wrap='nowrap' style={{ paddingLeft: '10px', minHeight: '60px' }}>
-                                            <img src={result.images[0]} alt='Not Found' height='50' width='50' />
+                                        <Grid container direction='row' alignItems='center' wrap='nowrap' style={{ paddingLeft: '10px', minHeight: '50px' }}>
+                                            <img src={result.images[0]} alt='Not Found' height='40' width='40' />
                                             <Typography
                                                 noWrap={true}
                                                 variant='h6'
                                                 component='h6'
-                                                style={{paddingLeft:'10px'}}
+                                                style={{ paddingLeft: '10px' }}
                                             >
                                                 {result.name}
                                             </Typography>
