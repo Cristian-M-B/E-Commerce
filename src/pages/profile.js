@@ -28,7 +28,10 @@ const modalStyles = {
     transform: 'translate(-50%, -50%)',
     width: '460px',
     minHeight: '250px',
-    padding: '10px'
+    padding: '10px',
+    '@media(max-width: 500px)': {
+        width: '90%'
+    }
 }
 
 export default function Profile() {
