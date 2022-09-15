@@ -16,14 +16,14 @@ export default function Nav() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        !userInfo?.firstName && dispatch({type: actionsTypes.GET_USER_INFO_LOCAL_STORAGE})
-        !userInfo?.firstName && dispatch({type: actionsTypes.GET_ORDER_LOCAL_STORAGE})
+        !userInfo?.firstName && dispatch({ type: actionsTypes.GET_USER_INFO_LOCAL_STORAGE })
+        !userInfo?.firstName && dispatch({ type: actionsTypes.GET_ORDER_LOCAL_STORAGE })
         getAllProducts()
     }, [])
 
-    async function getAllProducts(){
+    async function getAllProducts() {
         const products = await axios.get(`/api/products`)
-        dispatch({type: actionsTypes.LOAD_PRODUCTS, payload: products.data})
+        dispatch({ type: actionsTypes.LOAD_PRODUCTS, payload: products.data })
     }
 
     const handleMenu = (event) => {
@@ -50,7 +50,7 @@ export default function Nav() {
                     </NextLink>
                     <SearchBar />
                     <Grid>
-                        <IconButton color='inherit'>
+                        <IconButton color='inherit' sx={{ '@media(max-width: 500px)': { display: 'none' } }}>
                             <NextLink href='/favorites' passHref>
                                 <Link>
                                     <Badge badgeContent={favorites?.length} color='secondary'>
@@ -91,6 +91,13 @@ export default function Nav() {
                                 horizontal: 'right',
                             }}
                         >
+                            <MenuItem onClick={handleClose} sx={{ '@media(min-width: 501px)': { display: 'none' } }}>
+                                <NextLink href='/favorites' passHref>
+                                    <Link underline='none'>
+                                        Favoritos
+                                    </Link>
+                                </NextLink>
+                            </MenuItem>
                             {!userInfo?.firstName
                                 ? <div>
                                     <MenuItem onClick={handleClose}>

@@ -16,13 +16,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const searchStyles = { 
-    backgroundColor: 'white', 
-    borderRadius: '1vh', 
-    width: '30vw',
-    '@media(max-width: 400px)': {
-        width: '25vw'
-    }
+const searchStyles = {
+    backgroundColor: 'white',
+    borderRadius: '1vh',
+    width: '30vw'
 }
 
 const optionsStyles = {
@@ -35,7 +32,7 @@ const optionsStyles = {
     zIndex: '20',
     backgroundColor: 'white',
     borderRadius: '1vh',
-    '@media(max-width: 600px)': {
+    '@media(max-width: 500px)': {
         width: '250px',
         left: '50%',
         transform: 'translate(-50%)'

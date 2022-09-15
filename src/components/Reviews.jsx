@@ -6,12 +6,18 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import { Grid, Typography, Rating, TextField, Button, Avatar } from '@mui/material'
 
+const containerStyles = {
+    '@media(max-width: 550px)': {
+        marginTop: '4vh'
+    }
+}
+
 const gridStyles = {
     width: '35%',
     padding: '10px',
     border: '1px black solid',
     marginBottom: '4vh',
-    '@media (max-width: 600px)': {
+    '@media (max-width: 550px)': {
         width: '100%'
     }
 }
@@ -70,6 +76,7 @@ export default function Reviews({ orders }) {
             container
             direction='column'
             alignItems='center'
+            sx={containerStyles}
         >
             {reviews?.forEach(review => {
                 if (review.product._id === productID) {
