@@ -3,7 +3,7 @@ import User from '../../models/user'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { serialize } from 'cookie'
-import { transporter, registration } from '../../utils/email'
+import { transporter, registration, privileges } from '../../utils/email'
 
 export default async function handler(req, res) {
     await connectionDB();
@@ -114,8 +114,13 @@ export default async function handler(req, res) {
             const update = await User.findByIdAndUpdate(req.query.user, { image: req.body.image })
             const user = await User.findById(req.query.user).lean();
             res.status(200).json(user.image)
+        } else if (req.query.isAdmin) {
+            const user = await User.findByIdAndUpdate(req.query.user, { isAdmin: req.body.isAdmin })
+            transporter.sendMail(privileges(user))
+            const listUsers = await User.find({}).lean()
+            res.status(200).json(listUsers)
         } else {
-            if(req.body.password) {
+            if (req.body.password) {
                 const hash = bcrypt.hashSync(req.body.password);
                 const update = await User.findByIdAndUpdate(req.query.user, { firstName: req.body.firstName, lastName: req.body.lastName, document: req.body.document, email: req.body.email, password: hash });
             } else {
