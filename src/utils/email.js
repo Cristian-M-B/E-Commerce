@@ -25,8 +25,8 @@ export const registration = (user) => {
                 <p>Documento: ${user.document}</p>
                 <p>E-mail: ${user.email}</p>
             </ul>
-            <p>Si deseas editar tu información puedes hacerlo llendo a tu Perfil y seleccionando la opción Datos de Usuario</p>
-            <p>Por motivos de seguridad no mostramos tu contraseña</p>
+            <p>Si deseas editar tu información puedes hacerlo llendo a tu Perfil y seleccionando la opción Datos de Usuario.</p>
+            <p>Por motivos de seguridad no mostramos tu contraseña.</p>
         `
     }
 }
@@ -51,6 +51,19 @@ export const order = (order) => {
                 `
             ))}
             <p>TOTAL: ${parseCurrency(order.products.reduce((acc, product) => acc += (product.quantity * product.price), 0))}</p>
+        `
+    }
+}
+
+export const privileges = (user) => {
+    return {
+        from: `E-Commerce <${process.env.EMAIL}>`,
+        to: user.email,
+        subject: 'Cambio de Privilegios',
+        html: `
+            <h4>¡Hola ${user.firstName}, hemos cambiado tus privilegios dentro de E-Commerce!</h4>
+            <p>Veras reflejado dicho cambio cuando inicies sesión en tu cuenta de E-Commerce o cerrando sesión y volviendo a iniciar en caso que tengas la sesión abierta.</p>
+            <p>¡Muchas gracias por formar parte de E-Commerce!</p>
         `
     }
 }
