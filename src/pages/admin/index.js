@@ -61,7 +61,7 @@ export default function Admin({ products, categories, users, orders }) {
                     <Link underline='none'>
                         <Stack direction='column' justifyContent='center' alignItems='center' sx={stackStyles}>
                             <Typography variant='h5' component='h5'>{orders.length}</Typography>
-                            <Typography variant='h5' component='h5'>Ventas</Typography>
+                            <Typography variant='h5' component='h5'>Ordenes</Typography>
                         </Stack>
                     </Link>
                 </NextLink>
