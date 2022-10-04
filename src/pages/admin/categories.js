@@ -10,7 +10,7 @@ import Edit from '@mui/icons-material/Edit'
 import Delete from '@mui/icons-material/Delete'
 
 const tableStyles = {
-    width: '50vw',
+    width: '35vw',
     '@media(max-width: 525px)': {
         width: '75vw'
     },
@@ -113,48 +113,44 @@ export default function Categories({ allCategories }) {
                 <title>E-Commerce | Administrar Categorias</title>
             </Head>
             <Stack direction='column' alignItems='center'>
+                <Stack direction='row' justifyContent='space-between' alignItems='center' sx={{ ...tableStyles, padding: '10px' }}>
+                    <Typography variant='h5' component='h5'>
+                        Categorias
+                    </Typography>
+                    <IconButton onClick={handleOpenAdd}>
+                        <Add />
+                    </IconButton>
+                    <Modal
+                        open={openAdd}
+                        onClose={handleCloseAdd}
+                    >
+                        <Paper sx={modalStyles}>
+                            <Typography variant='h6' component='h6' align='center'>Agregar Categoria</Typography>
+                            <TextField
+                                fullWidth
+                                label='Nombre'
+                                onChange={(e) => setInput(e.target.value)}
+                                sx={{ marginTop: '25px', marginBottom: '25px' }}
+                            />
+                            <Stack direction='row' justifyContent='space-around'>
+                                <Button variant='contained' color='secondary' onClick={() => addCategory(input)}>Confirmar</Button>
+                                <Button variant='contained' color='secondary' onClick={handleCloseAdd}>Cancelar</Button>
+                            </Stack>
+                        </Paper>
+                    </Modal>
+                </Stack>
                 <TableContainer sx={tableStyles}>
                     <Table size='small'>
                         <TableHead>
-                            <TableRow>
-                                <TableCell>
-                                    <Typography variant='h5' component='h5'>
-                                        Categorias
-                                    </Typography>
-                                </TableCell>
-                                <TableCell align='right'>
-                                    <IconButton onClick={handleOpenAdd}>
-                                        <Add />
-                                    </IconButton>
-                                    <Modal
-                                        open={openAdd}
-                                        onClose={handleCloseAdd}
-                                    >
-                                        <Paper sx={modalStyles}>
-                                            <Typography variant='h6' component='h6' align='center'>Agregar Categoria</Typography>
-                                            <TextField
-                                                fullWidth
-                                                label='Nombre'
-                                                onChange={(e) => setInput(e.target.value)}
-                                                sx={{ marginTop: '25px', marginBottom: '25px' }}
-                                            />
-                                            <Stack direction='row' justifyContent='space-around'>
-                                                <Button variant='contained' color='secondary' onClick={() => addCategory(input)}>Confirmar</Button>
-                                                <Button variant='contained' color='secondary' onClick={handleCloseAdd}>Cancelar</Button>
-                                            </Stack>
-                                        </Paper>
-                                    </Modal>
-                                </TableCell>
-                            </TableRow>
                             <TableRow sx={{ backgroundColor: 'secondary.main' }}>
-                                <TableCell align='center'>
+                                <TableCell>
                                     <button onClick={sortCategories} style={buttonStyles}>
                                         <Typography variant='h6' component='h6'>
                                             Nombre
                                         </Typography>
                                     </button>
                                 </TableCell>
-                                <TableCell align='center'>
+                                <TableCell align='right'>
                                     <Typography variant='h6' component='h6'>
                                         Acciones
                                     </Typography>
@@ -165,12 +161,12 @@ export default function Categories({ allCategories }) {
                             {categories?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(category => (
                                     <TableRow hover key={category._id}>
-                                        <TableCell align='center'>
+                                        <TableCell>
                                             <Typography>
                                                 {category.name}
                                             </Typography>
                                         </TableCell>
-                                        <TableCell align='center'>
+                                        <TableCell align='right'>
                                             <IconButton onClick={() => { setId(category._id), handleOpenEdit() }}>
                                                 <Edit />
                                             </IconButton>
@@ -179,7 +175,8 @@ export default function Categories({ allCategories }) {
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ))
+                            }
                             <Modal
                                 open={openEdit}
                                 onClose={handleCloseEdit}
