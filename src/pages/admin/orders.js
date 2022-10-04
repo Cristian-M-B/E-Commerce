@@ -196,12 +196,12 @@ export default function Orders({ allOrders }) {
                                         Productos
                                     </Typography>
                                 </TableCell>
-                                <TableCell align='center'>
+                                <TableCell align='right'>
                                     <Typography variant='h6' component='h6'>
                                         Total
                                     </Typography>
                                 </TableCell>
-                                <TableCell align='center'>
+                                <TableCell>
                                     <Typography variant='h6' component='h6'>
                                         Estado
                                     </Typography>
@@ -216,7 +216,7 @@ export default function Orders({ allOrders }) {
                         <TableBody>
                             {orders?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(order => (
-                                    <TableRow hover>
+                                    <TableRow hover key={order._id}>
                                         <TableCell>
                                             <Typography>
                                                 {order.date[9] === ',' ? order.date.substring(0, 9) : order.date.substring(0, 10)}
@@ -234,12 +234,12 @@ export default function Orders({ allOrders }) {
                                                 </button>
                                             </Typography>
                                         </TableCell>
-                                        <TableCell align='center'>
+                                        <TableCell align='right'>
                                             <Typography>
                                                 {parseCurrency(order?.products?.reduce((acc, item) => acc += (item.quantity * item.price), 0))}
                                             </Typography>
                                         </TableCell>
-                                        <TableCell align='center'>
+                                        <TableCell>
                                             <Typography color={paymentStatusColor(order.paymentStatus)} sx={{ fontWeight: 'bold' }}>
                                                 {paymentStatus(order.paymentStatus)}
                                             </Typography>
@@ -250,7 +250,8 @@ export default function Orders({ allOrders }) {
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ))
+                            }
                             <Modal
                                 open={openProducts}
                                 onClose={handleCloseProducts}
@@ -260,7 +261,7 @@ export default function Orders({ allOrders }) {
                                         <Table size='small'>
                                             <TableHead sx={{ backgroundColor: 'secondary.main' }}>
                                                 <TableRow>
-                                                    <TableCell>
+                                                    <TableCell align='center'>
                                                         <Typography>
                                                             Imagen
                                                         </Typography>
@@ -275,7 +276,7 @@ export default function Orders({ allOrders }) {
                                                             Cantidad
                                                         </Typography>
                                                     </TableCell>
-                                                    <TableCell align='center'>
+                                                    <TableCell align='right'>
                                                         <Typography>
                                                             SubTotal
                                                         </Typography>
@@ -284,8 +285,8 @@ export default function Orders({ allOrders }) {
                                             </TableHead>
                                             <TableBody>
                                                 {products?.map(detail => (
-                                                    <TableRow>
-                                                        <TableCell>
+                                                    <TableRow key={detail.name}>
+                                                        <TableCell align='center'>
                                                             <img src={detail.images[0]} alt='Not Found' width='40' height='40' />
                                                         </TableCell>
                                                         <TableCell>
@@ -298,7 +299,7 @@ export default function Orders({ allOrders }) {
                                                                 {detail.quantity}
                                                             </Typography>
                                                         </TableCell>
-                                                        <TableCell align='center'>
+                                                        <TableCell align='right'>
                                                             <Typography>
                                                                 {parseCurrency(detail.quantity * detail.price)}
                                                             </Typography>
