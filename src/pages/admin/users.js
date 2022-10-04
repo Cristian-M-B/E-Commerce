@@ -4,11 +4,11 @@ import Layout from '../../components/Layout'
 import connectionDB from '../../utils/db'
 import User from '../../models/user'
 import axios from 'axios'
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, TablePagination } from '@mui/material'
 import { Stack, Modal, Paper, Typography, TextField, Button, IconButton, Tooltip, tooltipClasses, FormControl, FormControlLabel, FormLabel, RadioGroup, Radio } from '@mui/material'
 import Search from '@mui/icons-material/Search'
-import FilterAlt from '@mui/icons-material/FilterAlt';
+import FilterAlt from '@mui/icons-material/FilterAlt'
 import Security from '@mui/icons-material/Security'
 import Block from '@mui/icons-material/Block'
 import Done from '@mui/icons-material/Done'
@@ -23,7 +23,7 @@ const LightTooltip = styled(({ className, ...props }) => (
         boxShadow: theme.shadows[1],
         fontSize: 11
     },
-}));
+}))
 
 const tableStyles = {
     width: '60%',
@@ -198,6 +198,11 @@ export default function Users({ allUsers }) {
                     <Table size='small'>
                         <TableHead>
                             <TableRow sx={{ backgroundColor: 'secondary.main' }}>
+                                <TableCell align='center'>
+                                    <Typography variant='h6' component='h6'>
+                                        Avatar
+                                    </Typography>
+                                </TableCell>
                                 <TableCell>
                                     <button onClick={sortUsersByLastName} style={buttonStyles}>
                                         <Typography variant='h6' component='h6'>
@@ -228,6 +233,11 @@ export default function Users({ allUsers }) {
                             {users?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(user => (
                                     <TableRow hover key={user._id}>
+                                        <TableCell align='center'>
+                                            {user.image &&
+                                                <img src={user.image} alt='Not Found' width='40' height='40' style={{ borderRadius: '50%' }} />
+                                            }
+                                        </TableCell>
                                         <TableCell>
                                             <Typography>
                                                 {user.lastName}
@@ -253,7 +263,8 @@ export default function Users({ allUsers }) {
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ))
+                            }
                             <Modal
                                 open={openAdmin}
                                 onClose={handleCloseAdmin}
