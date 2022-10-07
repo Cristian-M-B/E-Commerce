@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 import connectionDB from '../utils/db'
 import Order from '../models/order'
 import { useStore } from '../context/StoreProvider'
-import { parseCurrency } from '../utils/functions'
+import { parseCurrency, paymentStatus, paymentStatusColor } from '../utils/functions'
 import { Grid, Paper, Stack, Typography } from '@mui/material'
 
 const paperStyles = {
@@ -30,8 +30,8 @@ export default function ShoppingHistory({ orders }) {
                     <Paper key={order._id} elevation={1} sx={paperStyles}>
                         <Stack direction='row' sx={{ justifyContent: 'space-around' }}>
                             <Typography>{order.date}</Typography>
-                            <Typography sx={{ color: order.paymentStatus === 'approved' ? '#2e7d32' : '#ed6c02' }}>
-                                {order.paymentStatus === 'approved' ? 'Pagado' : 'Pago Pendiente'}
+                            <Typography color={paymentStatusColor(order.paymentStatus)} sx={{ fontWeight: 'bold' }}>
+                                {paymentStatus(order.paymentStatus)}
                             </Typography>
                         </Stack>
                         {order?.products?.map(product => (
