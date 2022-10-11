@@ -8,6 +8,13 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import { Grid, Stack, Typography, TextField, Autocomplete, Button } from '@mui/material'
 
+const stackStyles = {
+    width: '35%',
+    '@media(max-width: 600px)': {
+        width: '80%'
+    }
+}
+
 export default function AddProduct({ categories }) {
     let images = []
     const router = useRouter()
@@ -84,7 +91,7 @@ export default function AddProduct({ categories }) {
                 <Typography variant='h5' component='h5'>
                     Agregar Producto
                 </Typography>
-                <Stack sx={{ width: '35%' }}>
+                <Stack sx={stackStyles}>
                     <TextField
                         label='Nombre'
                         name='name'
