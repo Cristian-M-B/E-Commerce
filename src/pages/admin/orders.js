@@ -59,6 +59,7 @@ export default function Orders({ allOrders }) {
     const [products, setProducts] = useState([])
     const [status, setStatus] = useState('')
     const [id, setId] = useState('')
+    const [quantity, setQuantity] = useState(0)
     const [search, setSearch] = useState(false)
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -91,6 +92,11 @@ export default function Orders({ allOrders }) {
             const { data } = await axios.put(`/api/order`, { id, status })
             data.reverse()
             setOrders(data)
+        }
+        if (status === 'cancelled') {
+            quantity.map(async product => (
+                await axios.put(`/api/products?id=${product.id}&addStock=${true}`, { addStock: product.quantity })
+            ))
         }
         handleCloseStatus()
     }
@@ -245,7 +251,7 @@ export default function Orders({ allOrders }) {
                                             </Typography>
                                         </TableCell>
                                         <TableCell align='center'>
-                                            <IconButton onClick={() => { setId(order._id), handleOpenStatus() }}>
+                                            <IconButton disabled={Boolean(order.paymentStatus === 'cancelled')} onClick={() => { setId(order._id), setQuantity(order.products), handleOpenStatus() }}>
                                                 <Edit />
                                             </IconButton>
                                         </TableCell>
