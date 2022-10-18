@@ -24,9 +24,21 @@ export default async function handler(req, res) {
 
   if (req.method === 'PUT') {
     const { id } = req.query
-    await Product.findByIdAndUpdate(id, { ...req.body })
-    const updatedProduct = await Product.findById(id).lean()
-    res.status(200).json(updatedProduct)
+    if (req.query.subtractStock) {
+      const product = await Product.findById(id)
+      await Product.findByIdAndUpdate(id, { stock: product.stock - req.body.subtractStock })
+      await Product.findById(id).lean()
+      res.status(200)
+    } else if (req.query.addStock) {
+      const product = await Product.findById(id)
+      await Product.findByIdAndUpdate(id, { stock: product.stock + req.body.addStock })
+      await Product.findById(id).lean()
+      res.status(200)
+    } else {
+      await Product.findByIdAndUpdate(id, { ...req.body })
+      const updatedProduct = await Product.findById(id).lean()
+      res.status(200).json(updatedProduct)
+    }
   }
 
   if (req.method === 'DELETE') {
