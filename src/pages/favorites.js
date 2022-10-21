@@ -59,9 +59,9 @@ export default function Favorites() {
                 <Head>
                     <title>E-Commerce | Favoritos</title>
                 </Head>
-                <Grid container direction='column' justifyContent='center' alignItems='center' style={{ height: '75vh' }}>
-                    <Typography variant='h5' component='h5'>¡No tenés Favoritos!</Typography>
-                    <Typography variant='h6' component='h6'>Podes elegir un producto como favorito, haciendo click en el corazón.</Typography>
+                <Grid container direction='column' justifyContent='center' style={{ height: '75vh' }}>
+                    <Typography variant='h5' component='h5' align='center'>¡No tenés Favoritos!</Typography>
+                    <Typography variant='h6' component='h6' align='center'>Podes elegir un producto como favorito, haciendo click en el corazón.</Typography>
                 </Grid>
             </Layout>
         )

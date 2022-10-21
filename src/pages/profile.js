@@ -15,10 +15,8 @@ import Close from '@mui/icons-material/Close'
 
 const paperStyles = {
     padding: '15px',
-    width: '40%',
-    '@media(max-width: 600px)': {
-        width: '98%'
-    }
+    paddingRight: '30px',
+    width: 'auto'
 }
 
 const modalStyles = {
@@ -31,6 +29,22 @@ const modalStyles = {
     padding: '10px',
     '@media(max-width: 500px)': {
         width: '90%'
+    }
+}
+
+const avatarStyles= {
+    height: '90px', 
+    width: '90px',
+    '@media(max-width: 600px)': {
+        width: '60px',
+        height: '60px'
+    }
+}
+
+const iconButtonStyles = {
+    marginRight: '10px' ,
+    '@media(max-width: 600px)': {
+        marginRight: '5px' ,
     }
 }
 
@@ -96,11 +110,11 @@ export default function Profile() {
                     <Typography variant='h6' component='h6' align='center'>¡Bienvenido a tu perfil!</Typography>
                     <Stack direction='row' style={{ marginTop: '4vh', marginBottom: '4vh' }}>
                         {userInfo?.image
-                            ? <IconButton onClick={openModal} sx={{ marginRight: '10px' }}>
-                                <Avatar src={userInfo?.image} alt='Not Found' sx={{ height: '90px', width: '90px' }} />
+                            ? <IconButton onClick={openModal} sx={iconButtonStyles}>
+                                <Avatar src={userInfo?.image} alt='Not Found' sx={avatarStyles} />
                             </IconButton>
-                            : <IconButton onClick={openModal} sx={{ marginRight: '10px' }}>
-                                <AccountCircle sx={{ width: '90px', height: '90px' }} />
+                            : <IconButton onClick={openModal} sx={iconButtonStyles}>
+                                <AccountCircle sx={avatarStyles} />
                             </IconButton>
                         }
                         <Modal

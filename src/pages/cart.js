@@ -96,9 +96,9 @@ export default function Cart() {
                 <Head>
                     <title>E-Commerce | Carrito</title>
                 </Head>
-                <Grid container direction='column' justifyContent='center' alignItems='center' style={{ height: '75vh' }}>
-                    <Typography variant='h5' component='h5'>¡El carrito está vacio!</Typography>
-                    <Typography variant='h6' component='h6'>Podes agregar un producto haciendo click en el carrito.</Typography>
+                <Grid container direction='column' justifyContent='center' style={{ height: '75vh' }}>
+                    <Typography variant='h5' component='h5' align='center'>¡El carrito está vacio!</Typography>
+                    <Typography variant='h6' component='h6' align='center'>Podes agregar un producto haciendo click en el carrito.</Typography>
                 </Grid>
             </Layout>
         )
