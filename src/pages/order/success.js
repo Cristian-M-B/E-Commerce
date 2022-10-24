@@ -46,9 +46,10 @@ export default function Success({ query }) {
                         <CircularProgress color='primary' sx={{ marginTop: '5vh' }} />
                     </>
                     : <>
-                        <Typography variant='h5' component='h5' style={{ marginBottom: '5vh' }}>¡La operación fue un exito!</Typography>
-                        <Typography variant='h6' component='h6'>A la brevedad comenzaremos a preparar tu pedido.</Typography>
-                        <Typography variant='h6' component='h6'>Además recibirás un email con el detalle de tu compra.</Typography>
+                        <img src='/success.png' width='100' height='100' style={{ marginBottom: '50px' }} />
+                        <Typography variant='h5' component='h5'>¡La operación fue un exito!</Typography>
+                        <Typography variant='h6' component='h6' align='center'>A la brevedad comenzaremos a preparar tu pedido.</Typography>
+                        <Typography variant='h6' component='h6' align='center'>Además recibirás un email con el detalle de tu compra.</Typography>
                         <Typography variant='h6' component='h6' style={{ marginTop: '4vh' }}>¡Muchas gracias por elegirnos!</Typography>
                     </>
                 }

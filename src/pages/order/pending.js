@@ -45,8 +45,9 @@ export default function Pending({ query }) {
                         <CircularProgress color='primary' sx={{ marginTop: '5vh' }} />
                     </>
                     : <>
-                        <Typography variant='h5' component='h5' style={{ marginBottom: '5vh' }}>¡Tú compra esta pendiente de pago!</Typography>
-                        <Typography variant='h6' component='h6'>Una vez que termines con el proceso de pago, empezaremos a preparar tu pedido.</Typography>
+                        <img src='/warning.png' width='100' height='100' style={{ marginBottom: '50px' }} />
+                        <Typography variant='h5' component='h5' align='center'>¡Tú compra esta pendiente de pago!</Typography>
+                        <Typography variant='h6' component='h6' align='center'>Una vez que termines con el proceso de pago, empezaremos a preparar tu pedido.</Typography>
                         <Typography variant='h6' component='h6' style={{ marginTop: '4vh' }}>¡Muchas gracias por elegirnos!</Typography>
                     </>
                 }
