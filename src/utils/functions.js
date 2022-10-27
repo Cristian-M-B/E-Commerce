@@ -5,6 +5,16 @@ export function parseCurrency(value) {
     })
 }
 
+export function passwordGenerator() {
+    const options = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    let password = ''
+    for (let i = 0; i < 8; i++) {
+        let char = Math.round(Math.random() * options.length)
+        password += options.charAt(char)
+    }
+    return password
+}
+
 export function paymentStatus(status) {
     if (status === 'preparing') return 'Preparando'
     if (status === 'traveling') return 'Viajando'
