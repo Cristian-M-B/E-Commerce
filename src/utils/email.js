@@ -67,3 +67,15 @@ export const privileges = (user) => {
         `
     }
 }
+
+export const resetPassword = (email, password) => {
+    return {
+        from: `E-Commerce <${process.env.EMAIL}>`,
+        to: email,
+        subject: 'Reseteo de Contraseña',
+        html: `
+            <h4>Tu nueva contraseña es: ${password}</h4>
+            <p>Una vez que ingreses, ve a tu perfil y cambia tu contraseña por una nueva.</p>
+        `
+    }
+}
