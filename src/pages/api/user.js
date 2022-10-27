@@ -3,7 +3,8 @@ import User from '../../models/user'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { serialize } from 'cookie'
-import { transporter, registration, privileges } from '../../utils/email'
+import { passwordGenerator } from '../../utils/functions'
+import { transporter, registration, privileges, resetPassword } from '../../utils/email'
 
 export default async function handler(req, res) {
     await connectionDB();
@@ -119,6 +120,14 @@ export default async function handler(req, res) {
             transporter.sendMail(privileges(user))
             const listUsers = await User.find({}).lean()
             res.status(200).json(listUsers)
+        } else if (req.query.reset) {
+            const { email } = req.body
+            const newPassword = passwordGenerator()
+            const hash = bcrypt.hashSync(newPassword)
+            await User.updateOne({ email }, { password: hash })
+            transporter.sendMail(resetPassword(email, newPassword))
+            const update = await User.findOne({ email })
+            res.status(200).json(update)
         } else {
             if (req.body.password) {
                 const hash = bcrypt.hashSync(req.body.password);
