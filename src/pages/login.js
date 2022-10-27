@@ -39,7 +39,7 @@ export default function Login() {
         e.preventDefault();
         try {
             const user = await axios.post(`/api/user?login=true`, dataForm)
-            if(!user.data) {
+            if (!user.data) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Email o Contraseña incorrecto',
@@ -48,7 +48,7 @@ export default function Login() {
                     timer: 5000,
                 })
             } else {
-                dispatch({type: actionsTypes.LOAD_USER_INFO, payload: user.data})
+                dispatch({ type: actionsTypes.LOAD_USER_INFO, payload: user.data })
                 setDataForm({
                     email: '',
                     password: ''
@@ -100,6 +100,13 @@ export default function Login() {
                                 </InputAdornment>
                         }}
                     />
+                    <Typography sx={{ marginTop: '1vh' }}>
+                        <NextLink href='/resetPassword' passHref>
+                            <Link underline='none'>
+                                Olvidé mi contraseña
+                            </Link>
+                        </NextLink>
+                    </Typography>
                     <Button
                         fullWidth
                         variant='contained'
