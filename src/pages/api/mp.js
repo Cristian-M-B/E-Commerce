@@ -22,9 +22,9 @@ export default async function handler(req, res) {
             items: items,
             auto_return: 'approved',
             back_urls: {
-                success: 'http://localhost:3000/order/success',
-                failure: 'http://localhost:3000/order/failure',
-                pending: 'http://localhost:3000/order/pending'
+                success: process.env.BACK_URL_SUCCESS,
+                failure: process.env.BACK_URL_FAILURE,
+                pending: process.env.BACK_URL_PENDING
             },
         };
 
