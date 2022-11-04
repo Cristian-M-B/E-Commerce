@@ -79,3 +79,31 @@ export const resetPassword = (email, password) => {
         `
     }
 }
+
+export const notification = (order) => {
+    return {
+        from: `E-Commerce <${process.env.EMAIL}>`,
+        to: 'crismaxbar@gmail.com',
+        subject: 'Notificación de Pago',
+        html: `
+            <h4>Acreditación de Pago</h4>
+            <p>Se ha acreditado el pago hecho por ${order.user.firstName} ${order.user.lastName} correspondiente a la Orden ${order._id}.</p>
+            <p>Ya puedes empezar a preparar estos productos para su entrega.</p>
+            ${order.products.map(product => (
+                `
+                    <ul>
+                        <h4>${product.name}</h4>
+                        <img src=${product.images[0]} width='90' height='90' style='margin-right: 20px' />
+                        <p>Cantidad: ${product.quantity}</p>
+                        <p>Precio Unitario: ${parseCurrency(product.price)}</p>
+                        <p>SubTotal: ${parseCurrency(product.quantity * product.price)}</p>
+                    </ul>
+                `
+            ))}
+            <br />
+            <ul>
+                <h4>TOTAL: ${parseCurrency(order.products.reduce((acc, product) => acc += (product.quantity * product.price), 0))}</h4>
+            </ul>
+        `
+    }
+}
