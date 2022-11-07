@@ -17,6 +17,6 @@ export default async function handler(req, res) {
         if (order) {
             transporter.sendMail(notification(order))
         }
+        res.status(200).send('OK')
     }
-    res.status(200).send('OK')
 }

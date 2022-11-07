@@ -61,7 +61,6 @@ export default async function handler(req, res) {
                 password: hash
             })
             const userSaved = await newUser.save();
-            transporter.sendMail(registration(userSaved))
             if (userSaved?.firstName) {
                 const token = jwt.sign({
                     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
@@ -76,6 +75,7 @@ export default async function handler(req, res) {
                 })
                 res.setHeader('Set-Cookie', serialized);
             }
+            transporter.sendMail(registration(userSaved))
             res.status(200).json(userSaved);
         }
     }
@@ -117,16 +117,16 @@ export default async function handler(req, res) {
             res.status(200).json(user.image)
         } else if (req.query.isAdmin) {
             const user = await User.findByIdAndUpdate(req.query.user, { isAdmin: req.body.isAdmin })
-            transporter.sendMail(privileges(user))
             const listUsers = await User.find({}).lean()
+            transporter.sendMail(privileges(user))
             res.status(200).json(listUsers)
         } else if (req.query.reset) {
             const { email } = req.body
             const newPassword = passwordGenerator()
             const hash = bcrypt.hashSync(newPassword)
             await User.updateOne({ email }, { password: hash })
-            transporter.sendMail(resetPassword(email, newPassword))
             const update = await User.findOne({ email })
+            transporter.sendMail(resetPassword(email, newPassword))
             res.status(200).json(update)
         } else {
             if (req.body.password) {
