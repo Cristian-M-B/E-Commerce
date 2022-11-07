@@ -38,11 +38,11 @@ export const order = (order) => {
         subject: 'Detalle de Compra',
         html: `
             <h4>¡Hola ${order.user.firstName}, gracias por elegirnos!</h4>
-            <h5>Detalle de la Compra</h5>
+            <h4>Detalle de tu Compra</h4>
             ${order.products.map(product => (
                 `
                     <ul>
-                        <h5>${product.name}</h5>
+                        <h4>${product.name}</h4>
                         <img src=${product.images[0]} width='90' height='90' style='margin-right: 20px' />
                         <p>Cantidad: ${product.quantity}</p>
                         <p>Precio Unitario: ${parseCurrency(product.price)}</p>
@@ -50,7 +50,10 @@ export const order = (order) => {
                     </ul>
                 `
             ))}
-            <p>TOTAL: ${parseCurrency(order.products.reduce((acc, product) => acc += (product.quantity * product.price), 0))}</p>
+            <br />
+            <ul>
+                <h4>TOTAL: ${parseCurrency(order.products.reduce((acc, product) => acc += (product.quantity * product.price), 0))}</h4>
+            </ul>
         `
     }
 }
