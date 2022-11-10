@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import axios from 'axios'
 import Layout from '../../components/Layout'
 import ShippingDataForm from '../../components/ShippingDataForm'
@@ -38,7 +37,6 @@ export default function Order() {
     const { userInfo } = useStore();
     const { shippingData, cart } = userInfo;
     const dispatch = useDispatch();
-    const router = useRouter();
     const [checkedOptionOne, setCheckedOptionOne] = useState(false);
     const [checkedOptionTwo, setCheckedOptionTwo] = useState(false);
 
@@ -68,9 +66,18 @@ export default function Order() {
             }
         })
         const deliveryMode = checkedOptionOne ? 'Retira en el local' : 'Enviar al domicilio'
+        const shipment = checkedOptionTwo ? 1000 : 0
         dispatch({ type: actionsTypes.LOAD_ORDER, payload: { userID, products, deliveryMode } })
-        const res = await axios.post(`/api/mp`, cart)
-        router.push(res.data)
+        const { data } = await axios.post(`/api/mp`, { cart, shipment, userInfo })
+        const mp = new MercadoPago(process.env.NEXT_PUBLIC_KEY_MP, {
+            locale: 'es-AR'
+        })
+        mp.checkout({
+            preference: {
+                id: data
+            },
+            autoOpen: true
+        })
     }
 
     return (
@@ -126,7 +133,10 @@ export default function Order() {
                         <ShippingDataForm />
                     }
                     {checkedOptionTwo && shippingData?.address &&
-                        <Typography>Te recordamos que el envio a domicilio tiene un costo adicional dependiendo de las zonas abajo mencionadas</Typography>
+                        <Stack direction='column'>
+                            <Typography>Te recordamos que el envio a domicilio tiene un costo adicional dependiendo de las zonas abajo mencionadas.</Typography>
+                            <Typography>En tu caso, el costo del envio es de $1.000,00.</Typography>
+                        </Stack>
                     }
                 </Grid>
             </div>
