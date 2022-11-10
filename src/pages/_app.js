@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import StoreProvider from '../context/StoreProvider'
 import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
@@ -8,6 +9,7 @@ function MyApp({ Component, pageProps }) {
     <StoreProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <Script src='https://sdk.mercadopago.com/js/v2' />
         <Component {...pageProps} />
       </ThemeProvider>
     </StoreProvider>
