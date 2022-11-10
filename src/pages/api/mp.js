@@ -3,7 +3,9 @@ import mercadopago from 'mercadopago'
 export default async function handler(req, res) {
     if (req.method === 'POST') {
 
-        const items = req.body?.map(item => {
+        const { cart, shipment, userInfo } = req.body
+
+        const items = cart.map(item => {
             return {
                 id: item._id._id,
                 title: item._id.name,
@@ -20,18 +22,37 @@ export default async function handler(req, res) {
 
         const preference = {
             items: items,
-            auto_return: 'approved',
+            shipments: {
+                cost: shipment,
+                mode: 'not_specified'
+            },
+            payment_methods: {
+                excluded_payment_types: [
+                    { id: 'ticket' }
+                ]
+            },
+            payer: {
+                name: userInfo.firstName,
+                surname: userInfo.lastName,
+                email: userInfo.email,
+                identification: {
+                    type: 'DNI',
+                    number: userInfo.document
+                }
+            },
             back_urls: {
                 success: process.env.BACK_URL_SUCCESS,
                 failure: process.env.BACK_URL_FAILURE,
                 pending: process.env.BACK_URL_PENDING
             },
+            notification_url: 'https://tecnocommerce.vercel.app/api/notifications'
         };
 
         mercadopago.preferences
             .create(preference)
             .then(response => {
-                res.status(200).json(response.body.init_point)
+                // res.status(200).json(response.body.init_point)
+                res.status(200).json(response.body.id)
             })
             .catch(error => {
                 console.log(error)
