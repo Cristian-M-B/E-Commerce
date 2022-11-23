@@ -75,7 +75,7 @@ export default async function handler(req, res) {
                 })
                 res.setHeader('Set-Cookie', serialized);
             }
-            transporter.sendMail(registration(userSaved))
+            await transporter.sendMail(registration(userSaved))
             res.status(200).json(userSaved);
         }
     }
@@ -118,7 +118,7 @@ export default async function handler(req, res) {
         } else if (req.query.isAdmin) {
             const user = await User.findByIdAndUpdate(req.query.user, { isAdmin: req.body.isAdmin })
             const listUsers = await User.find({}).lean()
-            transporter.sendMail(privileges(user))
+            await transporter.sendMail(privileges(user))
             res.status(200).json(listUsers)
         } else if (req.query.reset) {
             const { email } = req.body
@@ -126,7 +126,7 @@ export default async function handler(req, res) {
             const hash = bcrypt.hashSync(newPassword)
             await User.updateOne({ email }, { password: hash })
             const update = await User.findOne({ email })
-            transporter.sendMail(resetPassword(email, newPassword))
+            await transporter.sendMail(resetPassword(email, newPassword))
             res.status(200).json(update)
         } else {
             if (req.body.password) {

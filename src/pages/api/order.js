@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         })
         const orderSaved = await newOrder.save();
         const myOrder = await Order.findById(orderSaved._id).populate('user').lean();
-        transporter.sendMail(order(myOrder))
+        await transporter.sendMail(order(myOrder))
         res.status(200).json(orderSaved);
     }
 

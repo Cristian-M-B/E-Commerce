@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         await Order.updateOne({ paymentID: id }, { paymentStatus: data.status })
         const order = await Order.findOne({ paymentID: id }).populate('user').lean()
         if (order) {
-            transporter.sendMail(notification(order))
+            await transporter.sendMail(notification(order))
         }
         res.status(200).send('OK')
     }
