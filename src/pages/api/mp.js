@@ -40,6 +40,7 @@ export default async function handler(req, res) {
                     number: userInfo.document
                 }
             },
+            auto_return: 'approved',
             back_urls: {
                 success: process.env.BACK_URL_SUCCESS,
                 failure: process.env.BACK_URL_FAILURE,
@@ -51,8 +52,8 @@ export default async function handler(req, res) {
         mercadopago.preferences
             .create(preference)
             .then(response => {
-                // res.status(200).json(response.body.init_point)
-                res.status(200).json(response.body.id)
+                res.status(200).json(response.body.init_point)
+                // res.status(200).json(response.body.id)
             })
             .catch(error => {
                 console.log(error)
