@@ -25,11 +25,11 @@ export default function Pending({ query }) {
 
     async function newOrder() {
         const order = await axios.post(`/api/order`, { userID, products, mp, currentDate, deliveryMode })
-        const res = await axios.delete(`/api/user?user=${userInfo?._id}&emptyCart=${true}`)
-        dispatch({ type: actionsTypes.UPDATE_CART, payload: res.data })
-        products.map(async product => (
-            await axios.put(`/api/products?id=${product.id}&subtractStock=${true}`, {subtractStock: product.quantity})
-        ))
+        const { data } = await axios.delete(`/api/user?user=${userInfo?._id}&emptyCart=${true}`)
+        dispatch({ type: actionsTypes.UPDATE_CART, payload: data })
+        await Promise.all(products.map(async (product) => (
+            await axios.put(`/api/products?id=${product.id}&subtractStock=${true}`, { subtractStock: product.quantity })
+        )))
         setLoading(false)
     }
     return (

@@ -27,9 +27,9 @@ export default function Success({ query }) {
         const order = await axios.post(`/api/order`, { userID, products, mp, currentDate, deliveryMode })
         const { data } = await axios.delete(`/api/user?user=${userInfo?._id}&emptyCart=${true}`)
         dispatch({ type: actionsTypes.UPDATE_CART, payload: data })
-        products.map(async (product) => (
+        await Promise.all(products.map(async (product) => (
             await axios.put(`/api/products?id=${product.id}&subtractStock=${true}`, { subtractStock: product.quantity })
-        ))
+        )))
         setLoading(false)
     }
 
