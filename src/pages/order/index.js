@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import Head from 'next/head'
 import axios from 'axios'
 import Layout from '../../components/Layout'
@@ -38,7 +38,7 @@ export default function Order() {
     const { userInfo } = useStore()
     const { shippingData, cart } = userInfo
     const dispatch = useDispatch()
-    const router = useRouter()
+    // const router = useRouter()
     const [checkedOptionOne, setCheckedOptionOne] = useState(false)
     const [checkedOptionTwo, setCheckedOptionTwo] = useState(false)
 
@@ -71,16 +71,16 @@ export default function Order() {
         const shipment = checkedOptionTwo ? 1000 : 0
         dispatch({ type: actionsTypes.LOAD_ORDER, payload: { userID, products, deliveryMode } })
         const { data } = await axios.post(`/api/mp`, { cart, shipment, userInfo })
-        router.push(data)
-        // const mp = new MercadoPago(process.env.NEXT_PUBLIC_KEY_MP, {
-        //     locale: 'es-AR'
-        // })
-        // mp.checkout({
-        //     preference: {
-        //         id: data
-        //     },
-        //     autoOpen: true
-        // })
+        // router.push(data)
+        const mp = new MercadoPago(process.env.NEXT_PUBLIC_KEY_MP, {
+            locale: 'es-AR'
+        })
+        mp.checkout({
+            preference: {
+                id: data
+            },
+            autoOpen: true
+        })
     }
 
     return (
