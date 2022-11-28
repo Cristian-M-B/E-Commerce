@@ -90,7 +90,8 @@ export const notification = (order) => {
         subject: 'Notificación de Pago',
         html: `
             <h4>Acreditación de Pago</h4>
-            <p>Se ha acreditado el pago hecho por ${order.user.firstName} ${order.user.lastName} correspondiente a la Orden ${order._id}.</p>
+            <p>Se ha acreditado el pago hecho por ${order.user.firstName} ${order.user.lastName} por su compra hecha el ${order.date} correspondiente a la Orden ${order._id}.</p>
+            <p>${order.deliveryMode === 'Retira en el local' ? `El cliente retira su compra por el local`: `Enviar la compra a ${order.user.address} ${order.user.number} - ${order.user.locality} (CP ${order.user.postalCode})`}</p>
             <p>Ya puedes empezar a preparar estos productos para su entrega.</p>
             ${order.products.map(product => (
                 `
