@@ -78,6 +78,7 @@ export const resetPassword = (email, password) => {
         subject: 'Reseteo de Contraseña',
         html: `
             <h4>Tu nueva contraseña es: ${password}</h4>
+            <p>Puedes iniciar sesión desde <a href='https://tecnocommerce.vercel.app/login' target='_blank' rel='noreferrer'>aquí</a></p>
             <p>Una vez que ingreses, ve a tu perfil y cambia tu contraseña por una nueva.</p>
         `
     }

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Layout from '../components/Layout'
 import connectionDB from '../utils/db'
@@ -18,6 +19,7 @@ const paperStyles = {
 export default function Reset({ users }) {
     const [email, setEmail] = useState('')
     const [isValid, setIsValid] = useState(false)
+    const router = useRouter()
 
     const validate = (email) => {
         return users?.some(user => user.email === email)
@@ -33,11 +35,12 @@ export default function Reset({ users }) {
             const { data } = await axios.put(`/api/user?reset=${true}`, { email })
             Swal.fire({
                 icon: 'success',
-                text: 'En unos minutos te llegará un email con tu nueva contraseña',
+                text: 'En unos instantes te llegará un email con tu nueva contraseña',
                 confirmButtonText: 'Cerrar',
                 timer: 5000,
             })
             setEmail('')
+            router.push('/login')
         } catch (error) {
             console.log(error)
         }
