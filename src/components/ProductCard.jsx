@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import NextLink from 'next/link'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 import { useStore, useDispatch } from '../context/StoreProvider'
 import { actionsTypes } from '../context/StoreReducer'
 import { parseCurrency } from '../utils/functions'
@@ -39,6 +40,13 @@ export default function ProductCard({ product }) {
                     alert(error)
                 }
             }
+        } else {
+            Swal.fire({
+                icon: 'info',
+                text: 'Debes iniciar sesión o registrarte para poder seleccionar tus productos favoritos.',
+                confirmButtonText: 'Cerrar',
+                timer: 5000,
+            })
         }
     }
 
@@ -59,6 +67,13 @@ export default function ProductCard({ product }) {
                     alert(error)
                 }
             }
+        } else {
+            Swal.fire({
+                icon: 'info',
+                text: 'Debes iniciar sesión o registrarte para poder gestionar tu carrito.',
+                confirmButtonText: 'Cerrar',
+                timer: 5000,
+            })
         }
     }
 
